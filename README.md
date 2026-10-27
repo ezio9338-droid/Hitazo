@@ -2,7 +2,7 @@
 
 Juego musical para jugar en grupo con un solo móvil o tablet: suena una canción y, sin mirar, el jugador la coloca en su línea temporal (antes, entre o después de las que ya tiene). Si acierta, se queda la carta. Gana quien antes complete su colección.
 
-**Jugar:** https://ezio9338-droid.github.io/hitazo/
+**Jugar:** https://ezio9338-droid.github.io/Hitazo/
 
 ## Cómo se juega
 
@@ -28,7 +28,7 @@ Las canciones están en `songs.json`. Cada una tiene:
 - `d`: duración del vídeo en segundos (se usa para elegir un punto al azar).
 - `s` (opcional): segundo en el que empieza la parte buena. Si no está, la canción empieza en un punto al azar entre el 25 % y el 60 % de su duración (con la opción "En la parte buena o al azar").
 
-Para marcar la parte buena sin tocar el archivo, usa el editor: https://ezio9338-droid.github.io/hitazo/editor.html. Las marcas se guardan en ese dispositivo; con **Descargar songs.json** obtienes la lista actualizada para subirla al repositorio.
+Para marcar la parte buena sin tocar el archivo, usa el editor: https://ezio9338-droid.github.io/Hitazo/editor.html. Las marcas se guardan en ese dispositivo; con **Descargar songs.json** obtienes la lista actualizada para subirla al repositorio.
 
 Si un vídeo no se puede reproducir, el juego lo salta automáticamente y saca otra canción.
 
