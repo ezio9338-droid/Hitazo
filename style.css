@@ -257,6 +257,48 @@ body.needs-tap #unlock-note {
 .verdict.ok { color: var(--mint); }
 .verdict.ko { color: #ff9d8a; }
 
+/* Marcador */
+.score b { margin-left: 2px; }
+.score .cards-count { color: var(--muted); font-size: .82rem; font-variant-numeric: tabular-nums; }
+
+/* Adivinar artista y título */
+.guess {
+  margin-top: 16px; padding: 16px;
+  background: var(--petrol-2); border-radius: var(--radius-lg);
+  display: grid; gap: 12px; grid-template-columns: 1fr;
+}
+@media (min-width: 640px) { .guess { grid-template-columns: 1fr 1fr; } .guess-hint { grid-column: 1 / -1; } }
+.ac { position: relative; }
+.ac label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--paper); }
+.ac input {
+  width: 100%; padding: 12px 14px; font-size: 1rem;
+  border-radius: var(--radius-sm); border: 2px solid transparent;
+  background: var(--petrol); color: var(--text);
+}
+.ac input::placeholder { color: #7f9690; }
+.ac input:focus { outline: none; border-color: var(--mustard); }
+.suggest {
+  position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 5;
+  list-style: none; margin: 0; padding: 4px; max-height: 260px; overflow-y: auto;
+  background: var(--paper); color: var(--ink); border-radius: var(--radius-sm);
+  box-shadow: 0 10px 28px rgba(0,0,0,.4);
+}
+.suggest li { padding: 11px 12px; border-radius: 6px; cursor: pointer; }
+.suggest li:hover, .suggest li[aria-selected="true"] { background: var(--paper-2); }
+.suggest mark { background: none; color: var(--berry); font-weight: 700; }
+.guess-hint { margin: 0; color: var(--muted); font-size: .88rem; }
+
+/* Resultados de la jugada */
+.results { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; width: min(360px, 100%); }
+.results li {
+  display: flex; gap: 10px; align-items: center;
+  padding: 8px 12px; border-radius: var(--radius-sm); background: rgba(0,0,0,.22); color: var(--paper);
+}
+.results .mark { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: var(--ink); }
+.results li.ok .mark { background: var(--mint); }
+.results li.ko .mark { background: #ff9d8a; }
+.results .detail { color: var(--paper-2); font-size: .9rem; overflow-wrap: anywhere; }
+
 /* Línea temporal */
 .timeline-head { display: flex; justify-content: space-between; align-items: baseline; margin: 26px 0 10px; gap: 10px; }
 .timeline-head h2 { font-family: var(--display); font-weight: 400; font-size: 1.35rem; margin: 0; color: var(--paper); }

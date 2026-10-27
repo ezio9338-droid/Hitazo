@@ -141,6 +141,7 @@ setInterval(() => { if (ready && cur) $('clock').textContent = fmt(player.getCur
 
 window.onYouTubeIframeAPIReady = () => {
   player = new YT.Player('yt', {
+    host: 'https://www.youtube-nocookie.com',
     playerVars: { playsinline: 1, rel: 0 },
     events: { onReady: () => { ready = true; if (cur) pick(cur, false); } },
   });

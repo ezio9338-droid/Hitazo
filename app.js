@@ -73,7 +73,7 @@ function renderSetup() {
   const need = prefs.players.length * (prefs.target + 4);
   $app.innerHTML = `
     <h1 class="logo">Hitazo</h1>
-    <p class="tagline">Suena una canción. Sin mirar, colócala en tu línea temporal: ¿es anterior o posterior a las que ya tienes? Gana quien antes complete su colección.</p>
+    <p class="tagline">Suena una canción. Adivina el artista y el título, y colócala en tu línea temporal: ¿es anterior o posterior a las que ya tienes? Cada acierto vale un punto. Cuando alguien completa su línea, gana quien más puntos tenga.</p>
     ${saved ? `<div class="panel" style="margin-bottom:18px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
         <span>Tienes una partida a medias.</span>
         <span style="display:flex;gap:10px"><button class="btn small" data-act="resume">Continuar partida</button><button class="btn small ghost" data-act="discard">Descartar</button></span>
@@ -158,14 +158,14 @@ $app.addEventListener('click', e => {
   const b = e.target.closest('button');
   if (!b) return;
   if (b.dataset.remove !== undefined) { prefs.players.splice(+b.dataset.remove, 1); savePrefs(); return renderSetup(); }
-  if (b.dataset.slot !== undefined) { state.selected = +b.dataset.slot; saveGame(); return renderGame(); }
+  if (b.dataset.slot !== undefined) return selectSlot(+b.dataset.slot);
   switch (b.dataset.act) {
     case 'add': prefs.players.push(`Jugador ${prefs.players.length + 1}`); savePrefs(); renderSetup();
       $app.querySelector(`input[data-player="${prefs.players.length - 1}"]`)?.select(); break;
     case 'minus': prefs.target = Math.max(3, prefs.target - 1); savePrefs(); renderSetup(); break;
     case 'plus': prefs.target = Math.min(30, prefs.target + 1); savePrefs(); renderSetup(); break;
     case 'start': startGame(); break;
-    case 'resume': state = loadGame(); renderGame(); break;
+    case 'resume': state = loadGame(); state.players.forEach(p => { p.points ??= 0; }); renderGame(); break;
     case 'discard': state = null; saveGame(); renderSetup(); break;
     case 'play': playClip(); break;
     case 'pause': pauseAudio(); break;
@@ -184,8 +184,8 @@ function startGame() {
   const names = prefs.players.map((p, i) => p.trim() || `Jugador ${i + 1}`);
   const deck = shuffle(pool());
   state = {
-    players: names.map(name => ({ name, cards: [deck.pop()] })),
-    deck, turn: 0, current: deck.pop(), phase: 'listen', selected: null,
+    players: names.map(name => ({ name, cards: [deck.pop()], points: 0 })),
+    deck, turn: 0, current: deck.pop(), phase: 'listen', selected: null, guess: { a: '', t: '' },
     target: prefs.target, clip: prefs.clip, start: prefs.start, last: null,
   };
   state.players.forEach(p => p.cards.sort((a, b) => a.y - b.y));
@@ -198,17 +198,8 @@ function renderGame() {
   const revealed = state.phase === 'revealed';
   const s = state.current;
   const cards = p.cards;
-  let timeline = '';
-  for (let i = 0; i <= cards.length; i++) {
-    if (revealed && state.last && state.last.index === i && !state.last.ok) {
-      timeline += cardHTML(s, 'wrong new');
-    }
-    if (!revealed) {
-      const sel = state.selected === i;
-      timeline += `<button class="slot ${sel ? 'selected' : ''}" data-slot="${i}" aria-label="Colocar ${slotLabel(cards, i)}">${sel ? 'Aquí' : '+'}</button>`;
-    }
-    if (i < cards.length) timeline += cardHTML(cards[i], revealed && state.last?.ok && cards[i] === s ? 'new' : '');
-  }
+  state.guess ??= { a: '', t: '' };
+  const L = state.last;
 
   $app.innerHTML = `
     <div class="topbar">
@@ -217,10 +208,11 @@ function renderGame() {
     </div>
     <div class="scores">
       ${state.players.map((pl, i) => `<span class="score ${i === state.turn ? 'active' : ''}">
-        <span class="dot" style="background:${COLORS[i]}">${esc(initial(pl.name))}</span>${esc(pl.name)} <b>${pl.cards.length}/${state.target}</b></span>`).join('')}
+        <span class="dot" style="background:${COLORS[i]}">${esc(initial(pl.name))}</span>${esc(pl.name)}
+        <b>${pl.points ?? 0} pts</b><span class="cards-count">${pl.cards.length}/${state.target}</span></span>`).join('')}
     </div>
     <h1 class="turn-title">Turno de ${esc(p.name)}</h1>
-    <p class="turn-sub">${revealed ? '' : 'Escucha la canción y elige su sitio en tu línea temporal.'}</p>
+    <p class="turn-sub">${revealed ? '' : 'Escucha, intenta adivinar artista y canción, y elige su sitio en tu línea.'}</p>
 
     <section class="deck">
       <div class="record ${revealed ? 'revealed' : ''} ${isPlaying ? 'spinning' : ''}" id="record">
@@ -232,22 +224,68 @@ function renderGame() {
         <div class="reveal-info">
           <div class="song">${esc(s.t)}</div>
           <div class="artist">${esc(s.a)} · ${s.y}</div>
-          <p class="verdict ${state.last.ok ? 'ok' : 'ko'}">${state.last.ok ? '¡Bien colocada!' : 'Fallaste'}</p>
-        </div>` : `<div class="progress" aria-hidden="true"><i id="bar"></i></div>`}
+        </div>
+        <ul class="results">
+          ${resultRow('Año', L.ok, L.ok ? 'Bien colocada' : 'No encaja en tu línea')}
+          ${resultRow('Artista', L.artistOk, L.ga ? `Dijiste «${esc(L.ga)}»` : 'Sin respuesta')}
+          ${resultRow('Canción', L.titleOk, L.gt ? `Dijiste «${esc(L.gt)}»` : 'Sin respuesta')}
+        </ul>
+        <p class="verdict ${L.gained ? 'ok' : 'ko'}">${L.gained ? `+${L.gained} ${L.gained === 1 ? 'punto' : 'puntos'}` : 'Sin puntos esta vez'}</p>`
+      : `<div class="progress" aria-hidden="true"><i id="bar"></i></div>`}
       <div class="controls" id="controls">${controlsHTML()}</div>
     </section>
+
+    ${revealed ? '' : `
+    <section class="guess" aria-label="Adivina la canción">
+      ${guessField('a', 'Artista', 'Empieza a escribir, p. ej. «elvi»')}
+      ${guessField('t', 'Canción', 'Título de la canción')}
+      <p class="guess-hint">Opcional. Cada acierto suma 1 punto, igual que colocar bien la carta.</p>
+    </section>`}
 
     <div class="timeline-head">
       <h2>Línea de ${esc(p.name)}</h2>
       <span>${cards.length} de ${state.target} cartas</span>
     </div>
-    <div class="timeline">${timeline}</div>
+    <div class="timeline" id="timeline">${timelineHTML()}</div>
 
     <div class="place-bar">
       ${revealed
-        ? `<button class="btn berry" data-act="next">${winnerIndex() >= 0 ? 'Ver ganador' : 'Siguiente turno'}</button>`
-        : `<button class="btn" data-act="place" ${state.selected === null ? 'disabled' : ''}>Colocar aquí y ver el año</button>`}
+        ? `<button class="btn berry" data-act="next">${winnerIndex() >= 0 ? 'Ver resultado final' : 'Siguiente turno'}</button>`
+        : `<button class="btn" data-act="place" id="place-btn" ${state.selected === null ? 'disabled' : ''}>${state.selected === null ? 'Toca un hueco de tu línea' : 'Colocar aquí y ver el año'}</button>`}
     </div>`;
+}
+function timelineHTML() {
+  const p = state.players[state.turn], cards = p.cards, s = state.current;
+  const revealed = state.phase === 'revealed';
+  let html = '';
+  for (let i = 0; i <= cards.length; i++) {
+    if (revealed && state.last?.index === i && !state.last.ok) html += cardHTML(s, 'wrong new');
+    if (!revealed) {
+      const sel = state.selected === i;
+      html += `<button class="slot ${sel ? 'selected' : ''}" data-slot="${i}" aria-label="Colocar ${slotLabel(cards, i)}">${sel ? 'Aquí' : '+'}</button>`;
+    }
+    if (i < cards.length) html += cardHTML(cards[i], revealed && state.last?.ok && cards[i].v === s.v ? 'new' : '');
+  }
+  return html;
+}
+function selectSlot(i) {
+  state.selected = i; saveGame();
+  document.getElementById('timeline').innerHTML = timelineHTML();
+  const b = document.getElementById('place-btn');
+  if (b) { b.disabled = false; b.textContent = 'Colocar aquí y ver el año'; }
+}
+function resultRow(label, ok, detail) {
+  return `<li class="${ok ? 'ok' : 'ko'}"><span class="mark" aria-hidden="true">${ok ? '✓' : '✗'}</span>
+    <span><b>${label}</b> <span class="detail">${detail}</span></span></li>`;
+}
+function guessField(key, label, placeholder) {
+  return `<div class="ac">
+    <label for="g-${key}">${label}</label>
+    <input id="g-${key}" data-guess="${key}" value="${esc(state.guess[key])}" placeholder="${placeholder}"
+      autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+      role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sg-${key}">
+    <ul class="suggest" id="sg-${key}" role="listbox" hidden></ul>
+  </div>`;
 }
 function controlsHTML() {
   if (isPlaying) return `<button class="btn ghost" data-act="pause">Pausar</button>`;
@@ -276,45 +314,171 @@ function placeCard() {
   const i = state.selected, y = state.current.y, c = p.cards;
   const ok = (i === 0 || c[i - 1].y <= y) && (i === c.length || y <= c[i].y);
   if (ok) c.splice(i, 0, state.current);
-  state.last = { ok, index: i };
+  const ga = state.guess.a.trim(), gt = state.guess.t.trim();
+  const artistOk = !!ga && artistMatches(ga, state.current.a);
+  const titleOk = !!gt && titleMatches(gt, state.current.t);
+  const gained = ok + artistOk + titleOk;
+  p.points = (p.points ?? 0) + gained;
+  state.last = { ok, index: i, artistOk, titleOk, ga, gt, gained };
   state.phase = 'revealed';
   saveGame(); renderGame();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function winnerIndex() { return state.players.findIndex(p => p.cards.length >= state.target); }
 
 function nextTurn() {
   stopAudio();
-  const w = winnerIndex();
-  if (w >= 0) return renderWinner(w);
-  if (!state.deck.length) {
-    toast('Se han acabado las canciones. Gana quien tenga más cartas.');
-    const best = state.players.reduce((b, p, i, a) => p.cards.length > a[b].cards.length ? i : b, 0);
-    return renderWinner(best);
-  }
+  if (winnerIndex() >= 0) return renderWinner();
+  if (!state.deck.length) { toast('Se han acabado las canciones.'); return renderWinner(); }
   state.turn = (state.turn + 1) % state.players.length;
   state.current = state.deck.pop();
-  state.phase = 'listen'; state.selected = null; state.last = null;
+  state.phase = 'listen'; state.selected = null; state.last = null; state.guess = { a: '', t: '' };
   clipElapsed = 0;
   saveGame(); renderGame();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function renderWinner(i) {
-  const w = state.players[i];
-  const ranking = state.players.slice().sort((a, b) => b.cards.length - a.cards.length);
+// Gana quien más puntos tenga; en caso de empate, quien tenga más cartas.
+function renderWinner() {
+  const ranking = state.players.slice().sort((a, b) => (b.points - a.points) || (b.cards.length - a.cards.length));
+  const top = ranking.filter(p => p.points === ranking[0].points && p.cards.length === ranking[0].cards.length);
+  const title = top.length > 1 ? `¡Empate entre ${top.map(p => esc(p.name)).join(' y ')}!` : `¡Gana ${esc(top[0].name)}!`;
   $app.innerHTML = `
     <section class="winner">
-      <h1>¡Gana ${esc(w.name)}!</h1>
-      <div class="record revealed spinning"><div class="disc"><div class="label"><span class="q">${w.cards.length}</span><span class="hole"></span></div></div></div>
-      <ul class="final-scores">${ranking.map(p => `<li><span>${esc(p.name)}</span><b>${p.cards.length} cartas</b></li>`).join('')}</ul>
+      <h1>${title}</h1>
+      <div class="record revealed spinning"><div class="disc"><div class="label"><span class="q">${ranking[0].points}</span><span class="hole"></span></div></div></div>
+      <ul class="final-scores">${ranking.map(p => `<li><span>${esc(p.name)}</span><span><b>${p.points} pts</b> · ${p.cards.length} cartas</span></li>`).join('')}</ul>
       <button class="btn berry" data-act="again">Nueva partida</button>
     </section>`;
   state = null; saveGame();
 }
 
+/* ---------- Adivinar artista y título ---------- */
+const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+  .replace(/&/g, ' y ').replace(/[^a-z0-9ñ ]/g, ' ').replace(/\s+/g, ' ').trim().replace(/^the /, '');
+// Distancia de edición (para perdonar erratas pequeñas)
+function lev(a, b) {
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+function close(guess, target) {
+  const g = norm(guess), t = norm(target);
+  if (!g || !t) return false;
+  if (g === t) return true;
+  const tol = t.length >= 12 ? 2 : t.length >= 5 ? 1 : 0;
+  return lev(g, t) <= tol;
+}
+// Para dúos y colaboraciones vale cualquiera de los artistas
+const artistParts = a => [a, ...a.split(/\s+(?:y|ft\.|feat\.|x)\s+/i)];
+function artistMatches(guess, artist) { return artistParts(artist).some(part => close(guess, part)); }
+function titleMatches(guess, title) {
+  const short = title.replace(/\s*\(.*?\)\s*/g, ' ').trim();   // «Sweet Dreams (Are Made of This)» → «Sweet Dreams»
+  const afterColon = title.includes(':') ? title.split(':')[0] : null; // «Quevedo: Bzrp…» → «Quevedo»
+  return [title, short, afterColon].some(t => t && close(guess, t));
+}
+
+let OPTIONS = { a: [], t: [] };
+function buildOptions() {
+  const fullArtists = new Set(SONGS.map(s => s.a));
+  const artists = new Set(fullArtists);
+  // Añadimos también a los artistas de las colaboraciones que tienen canciones propias (Shakira, Bruno Mars…)
+  SONGS.forEach(s => artistParts(s.a).slice(1).forEach(p => { if (fullArtists.has(p)) artists.add(p); }));
+  const sortEs = (x, y) => x.localeCompare(y, 'es');
+  OPTIONS = {
+    a: [...artists].sort(sortEs).map(v => ({ v, n: norm(v) })),
+    t: [...new Set(SONGS.map(s => s.t))].sort(sortEs).map(v => ({ v, n: norm(v) })),
+  };
+}
+function suggestions(key, text) {
+  const q = norm(text);
+  if (!q) return [];
+  const scored = [];
+  for (const o of OPTIONS[key]) {
+    let r = -1;
+    if (o.n.startsWith(q)) r = 0;
+    else if (o.n.split(' ').some(w => w.startsWith(q))) r = 1;
+    else if (o.n.includes(q)) r = 2;
+    if (r >= 0) scored.push([r, o.v]);
+  }
+  return scored.sort((a, b) => a[0] - b[0]).slice(0, 7).map(x => x[1]);
+}
+let acActive = -1;
+function showSuggest(input) {
+  const key = input.dataset.guess, list = document.getElementById('sg-' + key);
+  const items = suggestions(key, input.value);
+  acActive = -1;
+  const exact = items.length === 1 && norm(items[0]) === norm(input.value);
+  if (!items.length || exact) { list.hidden = true; input.setAttribute('aria-expanded', 'false'); return; }
+  list.innerHTML = items.map((v, i) => `<li role="option" id="sg-${key}-${i}" data-pick="${esc(v)}">${highlight(v, input.value)}</li>`).join('');
+  list.hidden = false; input.setAttribute('aria-expanded', 'true');
+}
+function highlight(v, q) {
+  // Resalta la parte que coincide, sin perder tildes del texto original
+  const nv = v.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const nq = q.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+  const i = nq ? nv.indexOf(nq) : -1;
+  if (i < 0 || nv.length !== v.length) return esc(v);
+  return esc(v.slice(0, i)) + '<mark>' + esc(v.slice(i, i + nq.length)) + '</mark>' + esc(v.slice(i + nq.length));
+}
+function pickSuggestion(input, value) {
+  input.value = value; state.guess[input.dataset.guess] = value; saveGame();
+  hideSuggest(input);
+  // Pasar al siguiente campo para escribir rápido en el móvil
+  if (input.dataset.guess === 'a') document.getElementById('g-t')?.focus(); else input.blur();
+}
+function hideSuggest(input) {
+  const list = document.getElementById('sg-' + input.dataset.guess);
+  if (list) list.hidden = true;
+  input.setAttribute('aria-expanded', 'false');
+}
+$app.addEventListener('input', e => {
+  const k = e.target.dataset.guess;
+  if (!k) return;
+  state.guess[k] = e.target.value; saveGame();
+  showSuggest(e.target);
+});
+$app.addEventListener('focusin', e => {
+  if (e.target.dataset.guess && e.target.value) showSuggest(e.target);
+  // En el móvil, que el teclado no tape el campo ni el desplegable
+  if (e.target.dataset.guess) setTimeout(() => e.target.scrollIntoView({ block: 'center', behavior: 'smooth' }), 250);
+});
+$app.addEventListener('focusout', e => {
+  if (e.target.dataset.guess) setTimeout(() => hideSuggest(e.target), 150);
+});
+// pointerdown para elegir antes de que el campo pierda el foco
+$app.addEventListener('pointerdown', e => {
+  const li = e.target.closest('[data-pick]');
+  if (!li) return;
+  e.preventDefault();
+  const input = li.closest('.ac').querySelector('input');
+  pickSuggestion(input, li.dataset.pick);
+});
+$app.addEventListener('keydown', e => {
+  const input = e.target;
+  if (!input.dataset?.guess) return;
+  const list = document.getElementById('sg-' + input.dataset.guess);
+  const items = list && !list.hidden ? [...list.children] : [];
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    if (!items.length) return;
+    e.preventDefault();
+    acActive = (acActive + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+    items.forEach((li, i) => li.setAttribute('aria-selected', i === acActive));
+    input.setAttribute('aria-activedescendant', items[acActive].id);
+  } else if (e.key === 'Enter') {
+    e.preventDefault();
+    if (items.length) pickSuggestion(input, items[Math.max(0, acActive)].dataset.pick);
+    else if (input.dataset.guess === 'a') document.getElementById('g-t')?.focus();
+    else input.blur();
+  } else if (e.key === 'Escape') hideSuggest(input);
+});
+
 /* ---------- Audio (YouTube) ---------- */
 window.onYouTubeIframeAPIReady = function () {
   player = new YT.Player('yt', {
+    host: 'https://www.youtube-nocookie.com', // modo de privacidad mejorada
     width: 200, height: 200,
     playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0, fs: 0, iv_load_policy: 3 },
     events: {
@@ -425,5 +589,5 @@ function stopAudio() {
 /* ---------- Arranque ---------- */
 fetch('songs.json')
   .then(r => r.json())
-  .then(data => { SONGS = data; renderSetup(); })
+  .then(data => { SONGS = data; buildOptions(); renderSetup(); })
   .catch(() => { $app.innerHTML = '<p>No se ha podido cargar la lista de canciones. Recarga la página.</p>'; });
