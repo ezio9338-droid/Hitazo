@@ -1,6 +1,6 @@
 # Hitazo
 
-Juego musical para jugar en grupo con un solo móvil o tablet: suena una canción y, sin mirar, el jugador la coloca en su línea temporal (antes, entre o después de las que ya tiene). Si acierta, se queda la carta. Gana quien antes complete su colección.
+Juego musical para jugar en grupo con un solo móvil o tablet: suena una canción, el jugador intenta adivinar el artista y el título, y la coloca en su línea temporal (antes, entre o después de las que ya tiene). Cada acierto vale un punto. Cuando alguien completa su línea, gana quien más puntos tenga.
 
 **Jugar:** https://ezio9338-droid.github.io/Hitazo/
 
@@ -9,8 +9,9 @@ Juego musical para jugar en grupo con un solo móvil o tablet: suena una canció
 1. Escribe los nombres de los jugadores o equipos (de 2 a 8).
 2. Elige cuántas cartas hacen falta para ganar, las listas de canciones y las décadas.
 3. Cada jugador empieza con una carta ya descubierta.
-4. En tu turno, pulsa **Escuchar**, toca el hueco de tu línea donde crees que va la canción y pulsa **Colocar aquí y ver el año**.
-5. Si el año encaja, la carta se queda en tu línea. Si no, se descarta. Pasa el móvil al siguiente.
+4. En tu turno, pulsa **Escuchar**. Si quieres, escribe el artista y el título (el desplegable te ayuda). Toca el hueco de tu línea donde crees que va la canción y pulsa **Colocar aquí y ver el año**.
+5. Sumas 1 punto por colocarla bien (y te quedas la carta), 1 por el artista y 1 por el título. Pasa el móvil al siguiente.
+6. Cuando alguien llega a las cartas necesarias, gana quien más puntos tenga (si hay empate, quien tenga más cartas).
 
 La partida se guarda en el navegador: si recargas la página, puedes continuarla.
 
