@@ -21,10 +21,8 @@
 html, body { margin: 0; }
 body {
   min-height: 100dvh;
-  background:
-    radial-gradient(circle at 50% -20%, rgba(233, 169, 58, .16), transparent 55%),
-    repeating-radial-gradient(circle at 50% 120%, rgba(255,255,255,.018) 0 2px, transparent 2px 6px),
-    var(--petrol);
+  /* Fondo sencillo: los patrones finos a toda página cuestan mucho de pintar en el móvil */
+  background: radial-gradient(circle at 50% -20%, rgba(233, 169, 58, .16), transparent 55%) no-repeat, var(--petrol);
   color: var(--text);
   font: 400 17px/1.5 var(--body);
   -webkit-font-smoothing: antialiased;
@@ -224,6 +222,7 @@ body.needs-tap #unlock-note {
     repeating-radial-gradient(circle, #1b1b1b 0 1.5px, #0f0f0f 1.5px 3.5px),
     var(--vinyl);
   box-shadow: 0 8px 20px rgba(0,0,0,.5), inset 0 0 0 6px #0b0b0b;
+  contain: paint; /* lo que pase dentro del disco no obliga a repintar el resto */
 }
 .record::after { /* brillo */
   content: ""; position: absolute; inset: 0; border-radius: 50%;
@@ -242,11 +241,11 @@ body.needs-tap #unlock-note {
 .record.revealed .label { background: var(--mustard); color: var(--ink); }
 .record.revealed .label .q { font-size: calc(var(--size) * .13); }
 .record.spinning .disc { animation: spin 1.8s linear infinite; }
-.record .disc { position: absolute; inset: 0; border-radius: 50%; }
+.record .disc { position: absolute; inset: 0; border-radius: 50%; will-change: transform; } /* el giro lo hace la tarjeta gráfica */
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .progress { width: min(300px, 80%); height: 6px; border-radius: 3px; background: rgba(0,0,0,.35); overflow: hidden; }
-.progress i { display: block; height: 100%; width: 0; background: var(--mustard); }
+.progress i { display: block; height: 100%; width: 100%; background: var(--mustard); transform: scaleX(0); transform-origin: left center; will-change: transform; }
 
 .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 .reveal-info { text-align: center; color: var(--paper); }

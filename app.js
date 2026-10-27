@@ -253,6 +253,7 @@ function renderGame() {
         ? `<button class="btn berry" data-act="next">${winnerIndex() >= 0 ? 'Ver resultado final' : 'Siguiente turno'}</button>`
         : `<button class="btn" data-act="place" id="place-btn" ${state.selected === null ? 'disabled' : ''}>${state.selected === null ? 'Toca un hueco de tu línea' : 'Colocar aquí y ver el año'}</button>`}
     </div>`;
+  if (!revealed && !isPlaying && clipElapsed === 0) cueCurrent();
 }
 function timelineHTML() {
   const p = state.players[state.turn], cards = p.cards, s = state.current;
@@ -434,10 +435,12 @@ function hideSuggest(input) {
   if (list) list.hidden = true;
   input.setAttribute('aria-expanded', 'false');
 }
+let saveSoon = null;
 $app.addEventListener('input', e => {
   const k = e.target.dataset.guess;
   if (!k) return;
-  state.guess[k] = e.target.value; saveGame();
+  state.guess[k] = e.target.value;
+  clearTimeout(saveSoon); saveSoon = setTimeout(saveGame, 600); // no guardar en cada tecla
   showSuggest(e.target);
 });
 $app.addEventListener('focusin', e => {
@@ -482,7 +485,7 @@ window.onYouTubeIframeAPIReady = function () {
     width: 200, height: 200,
     playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0, fs: 0, iv_load_policy: 3 },
     events: {
-      onReady: () => { playerReady = true; },
+      onReady: () => { playerReady = true; cueCurrent(); },
       onStateChange: onPlayerState,
       onError: onPlayerError,
     },
@@ -496,7 +499,7 @@ function onPlayerState(e) {
     tickProgress();
   } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
     isPlaying = false; refreshControls();
-    cancelAnimationFrame(progressTimer);
+    clearTimeout(progressTimer);
   }
 }
 function onPlayerError() {
@@ -507,11 +510,28 @@ function onPlayerError() {
   clipElapsed = 0; saveGame(); renderGame();
   toast('Esa canción no se puede reproducir aquí. Pulsa Escuchar para oír otra.');
 }
+// Deja la canción del turno preparada en el reproductor nada más empezar el turno,
+// para que al pulsar Escuchar suene antes (sobre todo con conexión móvil).
+let cuedId = null;
+function cueCurrent() {
+  if (!playerReady || !state || state.phase !== 'listen') return;
+  const s = state.current;
+  if (cuedId === s.v) return;
+  try { player.cueVideoById({ videoId: s.v, startSeconds: startFor(s) }); cuedId = s.v; } catch {}
+}
 function playClip() {
   if (!playerReady) return toast('El reproductor aún se está cargando. Prueba en un segundo.');
   const s = state.current;
   clipElapsed = 0;
   clearTimeout(clipTimer);
+  const start = startFor(s);
+  if (cuedId === s.v) { player.seekTo(start, true); player.playVideo(); }
+  else { player.loadVideoById({ videoId: s.v, startSeconds: start }); cuedId = s.v; }
+  if (state.clip) armClipTimer(state.clip);
+  armUnlockWatchdog();
+  keepAwake();
+}
+function startFor(s) {
   let start = 0;
   if (state.start === 'auto') {
     const local = loadMoments();
@@ -524,10 +544,7 @@ function playClip() {
       start = s.rs;
     }
   }
-  player.loadVideoById({ videoId: s.v, startSeconds: start });
-  if (state.clip) armClipTimer(state.clip);
-  armUnlockWatchdog();
-  keepAwake();
+  return start;
 }
 // Algunos móviles (sobre todo iPhone) no dejan arrancar el sonido desde la web
 // hasta que se toca el reproductor de YouTube una vez. Si no suena en 2,5 s,
@@ -564,25 +581,29 @@ function armClipTimer(untilSeconds) {
   };
   check();
 }
+// La barra se actualiza 5 veces por segundo (no en cada fotograma) y con transform,
+// que no obliga al navegador a recalcular la página entera.
 function tickProgress() {
+  clearTimeout(progressTimer);
   clipElapsed = (performance.now() - clipStartedAt) / 1000;
   const bar = document.getElementById('bar');
   if (bar) {
-    let pct;
-    if (state?.clip) pct = (clipElapsed - segFrom) / (segTo - segFrom) * 100;
+    let f;
+    if (state?.clip) f = (clipElapsed - segFrom) / (segTo - segFrom);
     else {
       const dur = player?.getDuration?.() || 0;
-      pct = dur ? (player.getCurrentTime() / dur) * 100 : 0;
+      f = dur ? player.getCurrentTime() / dur : 0;
     }
-    bar.style.width = Math.max(0, Math.min(100, pct)) + '%';
+    bar.style.transform = `scaleX(${Math.max(0, Math.min(1, f)).toFixed(3)})`;
   }
-  if (isPlaying) progressTimer = requestAnimationFrame(tickProgress);
+  if (isPlaying) progressTimer = setTimeout(tickProgress, 200);
 }
 function pauseAudio() { hideUnlock(); clearTimeout(clipTimer); if (playerReady) player.pauseVideo(); }
 function stopAudio() {
   hideUnlock();
-  clearTimeout(clipTimer); cancelAnimationFrame(progressTimer);
+  clearTimeout(clipTimer); clearTimeout(progressTimer);
   if (playerReady) { try { player.stopVideo(); } catch {} }
+  cuedId = null;
   isPlaying = false;
 }
 
