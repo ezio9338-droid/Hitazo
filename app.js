@@ -22,11 +22,12 @@ const CLIPS = [
   { id: 0, label: 'Entera' },
 ];
 const STARTS = [
+  { id: 'auto', label: 'En la parte buena o al azar' },
   { id: 0, label: 'Desde el principio' },
-  { id: 30, label: 'Saltar la intro (seg. 30)' },
 ];
 const SAVE_KEY = 'hitazo-partida-v1';
-const PREFS_KEY = 'hitazo-ajustes-v1';
+const PREFS_KEY = 'hitazo-ajustes-v2';
+const MOMENTS_KEY = 'hitazo-momentos'; // momentos marcados en el editor de este dispositivo
 
 let SONGS = [];
 let state = null;          // partida en curso
@@ -40,7 +41,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;'
 
 /* ---------- Almacenamiento ---------- */
 function loadPrefs() {
-  const def = { players: ['Jugador 1', 'Jugador 2'], target: 10, lists: ['es', 'int'], decades: DECADES.map(d => d.id), clip: 30, start: 0 };
+  const def = { players: ['Jugador 1', 'Jugador 2'], target: 10, lists: ['es', 'int'], decades: DECADES.map(d => d.id), clip: 30, start: 'auto' };
   try { return Object.assign(def, JSON.parse(localStorage.getItem(PREFS_KEY)) || {}); } catch { return def; }
 }
 function savePrefs() { try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch {} }
@@ -124,7 +125,8 @@ function renderSetup() {
       <span class="pool-count">${n < need
         ? `Con esta selección solo hay ${n} canciones y hacen falta unas ${need}. Elige más décadas o listas, o baja las cartas para ganar.`
         : `${n} canciones en juego`}</span>
-    </div>`;
+    </div>
+    <p class="editor-link"><a href="editor.html">Marcar la parte buena de cada canción</a></p>`;
 }
 function chip(group, value, label, checked, type = 'checkbox') {
   return `<label class="chip"><input type="${type}" name="${group}" value="${value}" ${checked ? 'checked' : ''}><span>${esc(label)}</span></label>`;
@@ -147,7 +149,7 @@ $app.addEventListener('change', e => {
     prefs[key] = [...$app.querySelectorAll(`input[name="${t.name}"]:checked`)].map(x => x.value);
   }
   if (t.name === 'clip') prefs.clip = +t.value;
-  if (t.name === 'start') prefs.start = +t.value;
+  if (t.name === 'start') prefs.start = t.value === 'auto' ? 'auto' : +t.value;
   savePrefs(); renderSetup();
 });
 
@@ -250,7 +252,7 @@ function renderGame() {
 function controlsHTML() {
   if (isPlaying) return `<button class="btn ghost" data-act="pause">Pausar</button>`;
   const first = clipElapsed === 0;
-  return `<button class="btn" data-act="play">${first ? 'Escuchar' : 'Repetir desde el inicio'}</button>
+  return `<button class="btn" data-act="play">${first ? 'Escuchar' : 'Volver a escuchar'}</button>
     ${!first ? `<button class="btn ghost" data-act="more">Seguir escuchando</button>` : ''}`;
 }
 function refreshControls() {
@@ -324,6 +326,7 @@ window.onYouTubeIframeAPIReady = function () {
 };
 function onPlayerState(e) {
   if (e.data === YT.PlayerState.PLAYING) {
+    hideUnlock();
     isPlaying = true; refreshControls();
     clipStartedAt = performance.now() - clipElapsed * 1000;
     tickProgress();
@@ -345,8 +348,41 @@ function playClip() {
   const s = state.current;
   clipElapsed = 0;
   clearTimeout(clipTimer);
-  player.loadVideoById({ videoId: s.v, startSeconds: (s.s ?? 0) + state.start });
+  let start = 0;
+  if (state.start === 'auto') {
+    const local = loadMoments();
+    const marked = s.v in local ? local[s.v] : s.s;
+    if (marked != null) start = marked;
+    else {
+      // Sin momento marcado: punto al azar entre el 25 y el 60 % de la canción.
+      // Se guarda para que "Volver a escuchar" repita el mismo trozo.
+      if (s.rs == null) { s.rs = Math.round((s.d || 200) * (0.25 + Math.random() * 0.35)); saveGame(); }
+      start = s.rs;
+    }
+  }
+  player.loadVideoById({ videoId: s.v, startSeconds: start });
   if (state.clip) armClipTimer(state.clip);
+  armUnlockWatchdog();
+  keepAwake();
+}
+// Algunos móviles (sobre todo iPhone) no dejan arrancar el sonido desde la web
+// hasta que se toca el reproductor de YouTube una vez. Si no suena en 2,5 s,
+// mostramos su botón de play recortado (sin título) para que el jugador lo toque.
+let unlockTimer = null;
+function armUnlockWatchdog() {
+  clearTimeout(unlockTimer);
+  unlockTimer = setTimeout(() => {
+    if (!isPlaying && state?.phase === 'listen') document.body.classList.add('needs-tap');
+  }, 2500);
+}
+function hideUnlock() { clearTimeout(unlockTimer); document.body.classList.remove('needs-tap'); }
+// Evita que la pantalla se apague durante la partida (si el navegador lo permite)
+let wakeLock = null;
+async function keepAwake() {
+  try { if ('wakeLock' in navigator && !wakeLock) { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => { wakeLock = null; }); } } catch {}
+}
+function loadMoments() {
+  try { return JSON.parse(localStorage.getItem(MOMENTS_KEY)) || {}; } catch { return {}; }
 }
 function keepPlaying() {
   if (!playerReady) return;
@@ -378,8 +414,9 @@ function tickProgress() {
   }
   if (isPlaying) progressTimer = requestAnimationFrame(tickProgress);
 }
-function pauseAudio() { clearTimeout(clipTimer); if (playerReady) player.pauseVideo(); }
+function pauseAudio() { hideUnlock(); clearTimeout(clipTimer); if (playerReady) player.pauseVideo(); }
 function stopAudio() {
+  hideUnlock();
   clearTimeout(clipTimer); cancelAnimationFrame(progressTimer);
   if (playerReady) { try { player.stopVideo(); } catch {} }
   isPlaying = false;

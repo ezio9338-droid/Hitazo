@@ -44,6 +44,26 @@ button { cursor: pointer; }
   position: fixed; left: -9999px; top: 0;
   width: 200px; height: 200px; overflow: hidden; pointer-events: none;
 }
+#yt-wrap iframe { position: absolute; left: 0; top: 0; width: 200px; height: 200px; border: 0; }
+#unlock-note { display: none; }
+
+/* Plan B en móvil: se muestra solo el centro del reproductor (el botón de play), sin título */
+body.needs-tap::before {
+  content: ""; position: fixed; inset: 0; background: rgba(10, 22, 24, .82); z-index: 19;
+}
+body.needs-tap #yt-wrap {
+  left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 150px; height: 150px; border-radius: 50%;
+  pointer-events: auto; z-index: 20;
+  box-shadow: 0 0 0 6px var(--mustard), 0 12px 40px rgba(0,0,0,.5);
+}
+body.needs-tap #yt-wrap iframe { width: 480px; height: 270px; left: -165px; top: -60px; }
+body.needs-tap #unlock-note {
+  display: block; position: fixed; z-index: 20;
+  left: 50%; top: calc(50% + 100px); transform: translateX(-50%);
+  width: min(320px, calc(100% - 32px)); text-align: center;
+  color: var(--paper); font-weight: 600;
+}
 
 /* Botones */
 .btn {
@@ -137,6 +157,33 @@ button { cursor: pointer; }
 
 .start-row { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
 .pool-count { color: var(--muted); font-size: .92rem; }
+.editor-link { margin-top: 28px; font-size: .92rem; }
+.editor-link a, .back-link { color: var(--muted); text-underline-offset: 3px; }
+
+/* ---------- Editor de momentos ---------- */
+.editor { display: grid; gap: 18px; grid-template-columns: 1fr; }
+@media (min-width: 820px) { .editor { grid-template-columns: 1fr 1.1fr; align-items: start; } .editor .now { position: sticky; top: 16px; } }
+.editor .video { aspect-ratio: 16 / 9; width: 100%; border-radius: var(--radius-sm); overflow: hidden; background: #000; }
+.editor .video iframe, .editor .video > div { width: 100%; height: 100%; }
+.editor .clock { font-variant-numeric: tabular-nums; font-size: 1.6rem; font-weight: 700; color: var(--paper); }
+.editor .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+.editor .filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 12px; }
+.editor input[type=search] {
+  flex: 1; min-width: 160px; padding: 10px 14px; border-radius: var(--radius-sm);
+  border: 2px solid transparent; background: var(--petrol); color: var(--text);
+}
+.song-list { list-style: none; margin: 0; padding: 0; max-height: 70vh; overflow-y: auto; }
+.song-list button {
+  width: 100%; text-align: left; display: grid; grid-template-columns: 3.2rem 1fr auto; gap: 10px; align-items: center;
+  padding: 10px 8px; border: 0; border-bottom: 1px solid var(--petrol-3); background: transparent;
+}
+.song-list button:hover, .song-list button.current { background: var(--petrol); }
+.song-list .y { font-family: var(--display); color: var(--mustard); }
+.song-list .meta { min-width: 0; }
+.song-list .meta b { display: block; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.song-list .meta span { color: var(--muted); font-size: .88rem; }
+.song-list .mark { font-variant-numeric: tabular-nums; font-size: .88rem; color: var(--mint); white-space: nowrap; }
+.song-list .mark.none { color: var(--muted); }
 
 /* ---------- Partida ---------- */
 .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }

@@ -25,8 +25,15 @@ Las canciones están en `songs.json`. Cada una tiene:
 - `y`: año de la primera publicación de la canción.
 - `l`: lista, `es` (en español) o `int` (internacional).
 - `v`: el código del vídeo de YouTube (lo que va detrás de `watch?v=`). El vídeo tiene que permitir su reproducción en otras webs.
-- `s` (opcional): segundo en el que empieza a sonar, para saltarse intros largas.
+- `d`: duración del vídeo en segundos (se usa para elegir un punto al azar).
+- `s` (opcional): segundo en el que empieza la parte buena. Si no está, la canción empieza en un punto al azar entre el 25 % y el 60 % de su duración (con la opción "En la parte buena o al azar").
+
+Para marcar la parte buena sin tocar el archivo, usa el editor: https://ezio9338-droid.github.io/hitazo/editor.html. Las marcas se guardan en ese dispositivo; con **Descargar songs.json** obtienes la lista actualizada para subirla al repositorio.
 
 Si un vídeo no se puede reproducir, el juego lo salta automáticamente y saca otra canción.
+
+## En el móvil
+
+Funciona en el navegador del móvil, sin instalar nada. Algunos iPhone piden tocar una vez el botón de play de YouTube antes de dejar sonar la música: si pasa, el juego lo muestra en pantalla.
 
 `tools/resolver.js` es el script que se usó para buscar los vídeos: se pega en la consola del navegador con youtube.com abierto.

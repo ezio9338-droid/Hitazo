@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hitazo · Marcar momentos</title>
+<meta name="theme-color" content="#173438">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23111'/%3E%3Ccircle cx='32' cy='32' r='11' fill='%23E9A93A'/%3E%3Ccircle cx='32' cy='32' r='2.5' fill='%23111'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="app">
+  <div class="topbar">
+    <a class="mini-logo" href="./" style="text-decoration:none">Hitazo</a>
+    <a class="back-link" href="./">Volver al juego</a>
+  </div>
+  <h1 class="turn-title">Marcar la parte buena</h1>
+  <p class="turn-sub" style="max-width:62ch">Elige una canción, espera a que llegue la parte más reconocible (normalmente el estribillo) y pulsa <b>Empieza aquí</b>. En el juego sonará desde ese punto. Las canciones sin marcar empiezan en un momento al azar.</p>
+
+  <div class="editor">
+    <section class="panel now">
+      <div class="video"><div id="yt"></div></div>
+      <div id="now-info" style="margin-top:14px"></div>
+      <div class="row">
+        <span class="clock" id="clock">0:00</span>
+        <button class="btn small ghost" data-act="back">−5 s</button>
+        <button class="btn small ghost" data-act="fwd">+5 s</button>
+      </div>
+      <div class="row">
+        <button class="btn" data-act="mark">Empieza aquí</button>
+        <button class="btn ghost small" data-act="test">Probar la marca</button>
+        <button class="link" data-act="clear">Quitar marca</button>
+      </div>
+      <div class="row">
+        <button class="btn berry small" data-act="next">Siguiente sin marcar</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="filters">
+        <label class="chip"><input type="radio" name="f" value="todo" checked><span>Sin marcar</span></label>
+        <label class="chip"><input type="radio" name="f" value="all"><span>Todas</span></label>
+        <input type="search" id="q" placeholder="Buscar título o artista" aria-label="Buscar canción">
+      </div>
+      <ul class="song-list" id="list"></ul>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top:18px">
+    <h2>Guardar las marcas</h2>
+    <p class="hint" style="margin:0 0 14px">Se guardan solas en este dispositivo y el juego ya las usa aquí. Para que valgan en cualquier móvil, descarga la lista y sube el archivo al repositorio sustituyendo <code>songs.json</code>.</p>
+    <div class="row" style="margin-top:0">
+      <button class="btn" data-act="download">Descargar songs.json</button>
+      <span class="pool-count" id="count"></span>
+    </div>
+  </section>
+</main>
+<div id="toast" role="status"></div>
+
+<script>
+'use strict';
+const KEY = 'hitazo-momentos';
+let SONGS = [], moments = {}, cur = null, player = null, ready = false, filter = 'todo', query = '';
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+try { moments = JSON.parse(localStorage.getItem(KEY)) || {}; } catch {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(moments)); } catch {} renderList(); }
+const markOf = s => (s.v in moments ? moments[s.v] : s.s) ?? null;
+
+function toast(msg) {
+  const el = $('toast'); el.textContent = msg; el.classList.add('show');
+  clearTimeout(toast.t); toast.t = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+function renderList() {
+  const items = SONGS.filter(s => (filter === 'all' || markOf(s) == null) &&
+    (!query || norm(s.t + ' ' + s.a).includes(query)));
+  $('list').innerHTML = items.map(s => {
+    const m = markOf(s);
+    return `<li><button data-v="${s.v}" class="${cur === s ? 'current' : ''}">
+      <span class="y">${s.y}</span>
+      <span class="meta"><b>${esc(s.t)}</b><span>${esc(s.a)}</span></span>
+      <span class="mark ${m == null ? 'none' : ''}">${m == null ? 'sin marcar' : fmt(m)}</span>
+    </button></li>`;
+  }).join('') || '<li style="padding:12px 4px;color:var(--muted)">No hay canciones con este filtro.</li>';
+  const done = SONGS.filter(s => markOf(s) != null).length;
+  $('count').textContent = `${done} de ${SONGS.length} canciones marcadas`;
+}
+function renderNow() {
+  if (!cur) { $('now-info').innerHTML = '<p class="hint" style="margin:0">Elige una canción de la lista.</p>'; return; }
+  const m = markOf(cur);
+  $('now-info').innerHTML = `<div style="font-weight:700;font-size:1.1rem">${esc(cur.t)}</div>
+    <div style="color:var(--muted)">${esc(cur.a)} · ${cur.y} · ${m == null ? 'sin marcar' : 'marca en ' + fmt(m)}</div>`;
+}
+function pick(s, autoplay = true) {
+  cur = s; renderNow(); renderList();
+  if (ready) autoplay ? player.loadVideoById({ videoId: s.v, startSeconds: markOf(s) ?? 0 }) : player.cueVideoById(s.v);
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.v) return pick(SONGS.find(s => s.v === b.dataset.v));
+  const act = b.dataset.act;
+  if (act === 'download') return download();
+  if (act === 'next') {
+    const i = cur ? SONGS.indexOf(cur) : -1;
+    const n = SONGS.slice(i + 1).concat(SONGS.slice(0, i + 1)).find(s => markOf(s) == null && s !== cur);
+    return n ? pick(n) : toast('Ya están todas marcadas.');
+  }
+  if (!cur || !ready) return toast('Elige primero una canción.');
+  const t = player.getCurrentTime() || 0;
+  if (act === 'back') player.seekTo(Math.max(0, t - 5), true);
+  if (act === 'fwd') player.seekTo(t + 5, true);
+  if (act === 'mark') { moments[cur.v] = Math.max(0, Math.floor(t)); save(); renderNow(); toast(`Marcada en ${fmt(moments[cur.v])}`); }
+  if (act === 'clear') { delete moments[cur.v]; if (cur.s != null) moments[cur.v] = null; save(); renderNow(); }
+  if (act === 'test') { const m = markOf(cur); if (m == null) return toast('Esta canción aún no tiene marca.'); player.seekTo(m, true); player.playVideo(); }
+});
+document.addEventListener('change', e => { if (e.target.name === 'f') { filter = e.target.value; renderList(); } });
+$('q').addEventListener('input', e => { query = norm(e.target.value.trim()); renderList(); });
+
+function download() {
+  const out = SONGS.map(({ t, a, y, l, v, d, s }) => {
+    const m = v in moments ? moments[v] : s;
+    const o = { t, a, y, l, v, d };
+    if (m != null) o.s = m;
+    return o;
+  });
+  const json = '[\n' + out.map(o => JSON.stringify(o)).join(',\n') + '\n]\n';
+  const url = URL.createObjectURL(new Blob([json], { type: 'application/json' }));
+  const a = Object.assign(document.createElement('a'), { href: url, download: 'songs.json' });
+  document.body.append(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+
+setInterval(() => { if (ready && cur) $('clock').textContent = fmt(player.getCurrentTime() || 0); }, 250);
+
+window.onYouTubeIframeAPIReady = () => {
+  player = new YT.Player('yt', {
+    playerVars: { playsinline: 1, rel: 0 },
+    events: { onReady: () => { ready = true; if (cur) pick(cur, false); } },
+  });
+};
+
+fetch('songs.json').then(r => r.json()).then(d => { SONGS = d; renderList(); renderNow(); });
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>

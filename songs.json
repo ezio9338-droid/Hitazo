@@ -1,1157 +1,219 @@
 [
-{
-"t": "Yo soy aquel",
-"a": "Raphael",
-"y": 1966,
-"l": "es",
-"v": "TEwWrpebnkM"
-},
-{
-"t": "La, la, la",
-"a": "Massiel",
-"y": 1968,
-"l": "es",
-"v": "6KIKTWCQ6fc"
-},
-{
-"t": "Cuéntame",
-"a": "Fórmula V",
-"y": 1969,
-"l": "es",
-"v": "j9cuTIPNMbY"
-},
-{
-"t": "Borriquito",
-"a": "Peret",
-"y": 1971,
-"l": "es",
-"v": "5nchCNteFm0"
-},
-{
-"t": "Libre",
-"a": "Nino Bravo",
-"y": 1972,
-"l": "es",
-"v": "Qr_xKvt4HFM"
-},
-{
-"t": "Eres tú",
-"a": "Mocedades",
-"y": 1973,
-"l": "es",
-"v": "A5vaIjBQnmk"
-},
-{
-"t": "Porque te vas",
-"a": "Jeanette",
-"y": 1974,
-"l": "es",
-"v": "TjUhXbGdLYo"
-},
-{
-"t": "Te estoy amando locamente",
-"a": "Las Grecas",
-"y": 1974,
-"l": "es",
-"v": "7n0-N9qnXXQ"
-},
-{
-"t": "Vivir así es morir de amor",
-"a": "Camilo Sesto",
-"y": 1978,
-"l": "es",
-"v": "nZShzrtpq6A"
-},
-{
-"t": "Soy un truhán, soy un señor",
-"a": "Julio Iglesias",
-"y": 1978,
-"l": "es",
-"v": "aA0Yg192J3g"
-},
-{
-"t": "Chica de ayer",
-"a": "Nacha Pop",
-"y": 1980,
-"l": "es",
-"v": "zQDOIdBZYSY"
-},
-{
-"t": "Déjame",
-"a": "Los Secretos",
-"y": 1981,
-"l": "es",
-"v": "G8yKzRSpT2s"
-},
-{
-"t": "Como una ola",
-"a": "Rocío Jurado",
-"y": 1981,
-"l": "es",
-"v": "ClC42sfrglc"
-},
-{
-"t": "Bienvenidos",
-"a": "Miguel Ríos",
-"y": 1982,
-"l": "es",
-"v": "Rm-yZGvcf2U"
-},
-{
-"t": "Cadillac solitario",
-"a": "Loquillo y Trogloditas",
-"y": 1983,
-"l": "es",
-"v": "vvitGvSA1EI"
-},
-{
-"t": "Escuela de calor",
-"a": "Radio Futura",
-"y": 1984,
-"l": "es",
-"v": "LyCQvyrZzW0"
-},
-{
-"t": "Lobo hombre en París",
-"a": "La Unión",
-"y": 1984,
-"l": "es",
-"v": "sl4GO6pgRas"
-},
-{
-"t": "Devuélveme a mi chica",
-"a": "Hombres G",
-"y": 1985,
-"l": "es",
-"v": "sHQ9BdvZPco"
-},
-{
-"t": "Hijo de la luna",
-"a": "Mecano",
-"y": 1986,
-"l": "es",
-"v": "OwGG5fX7bxY"
-},
-{
-"t": "A quién le importa",
-"a": "Alaska y Dinarama",
-"y": 1986,
-"l": "es",
-"v": "IJGbBzgdr3o"
-},
-{
-"t": "En algún lugar",
-"a": "Duncan Dhu",
-"y": 1987,
-"l": "es",
-"v": "H1eAvX-8g08"
-},
-{
-"t": "Camino Soria",
-"a": "Gabinete Caligari",
-"y": 1987,
-"l": "es",
-"v": "Q_j6iSwXCD4"
-},
-{
-"t": "Eloise",
-"a": "Tino Casal",
-"y": 1987,
-"l": "es",
-"v": "LVxCCdooXec"
-},
-{
-"t": "Como un burro amarrado en la puerta del baile",
-"a": "El Último de la Fila",
-"y": 1988,
-"l": "es",
-"v": "V0T_6bxb73Q"
-},
-{
-"t": "Entre dos tierras",
-"a": "Héroes del Silencio",
-"y": 1990,
-"l": "es",
-"v": "SzimletXB7M"
-},
-{
-"t": "De música ligera",
-"a": "Soda Stereo",
-"y": 1990,
-"l": "es",
-"v": "T_FkEw27XJ0"
-},
-{
-"t": "20 de abril",
-"a": "Celtas Cortos",
-"y": 1991,
-"l": "es",
-"v": "sMvPN3349og"
-},
-{
-"t": "Macarena",
-"a": "Los del Río",
-"y": 1993,
-"l": "es",
-"v": "cV0FxPZ3YR0"
-},
-{
-"t": "Sin documentos",
-"a": "Los Rodríguez",
-"y": 1993,
-"l": "es",
-"v": "BUKHMGiW_rY"
-},
-{
-"t": "No estamos lokos",
-"a": "Ketama",
-"y": 1995,
-"l": "es",
-"v": "3Yc9LYt69Ls"
-},
-{
-"t": "Experiencia religiosa",
-"a": "Enrique Iglesias",
-"y": 1995,
-"l": "es",
-"v": "y-n935vlTpA"
-},
-{
-"t": "Estoy aquí",
-"a": "Shakira",
-"y": 1995,
-"l": "es",
-"v": "NmJHH026X0c"
-},
-{
-"t": "La flaca",
-"a": "Jarabe de Palo",
-"y": 1996,
-"l": "es",
-"v": "r2g0pM3PMNQ"
-},
-{
-"t": "So payaso",
-"a": "Extremoduro",
-"y": 1996,
-"l": "es",
-"v": "1D3tSv9LQlE"
-},
-{
-"t": "Corazón partío",
-"a": "Alejandro Sanz",
-"y": 1997,
-"l": "es",
-"v": "ALbxIboSbMU"
-},
-{
-"t": "Clavado en un bar",
-"a": "Maná",
-"y": 1997,
-"l": "es",
-"v": "fBrX8ym3dBM"
-},
-{
-"t": "La copa de la vida",
-"a": "Ricky Martin",
-"y": 1998,
-"l": "es",
-"v": "tF_ggG5dY5U"
-},
-{
-"t": "La raja de tu falda",
-"a": "Estopa",
-"y": 1999,
-"l": "es",
-"v": "DaX7WSx2npE"
-},
-{
-"t": "Sin ti no soy nada",
-"a": "Amaral",
-"y": 2002,
-"l": "es",
-"v": "qcC92ZnhGQY"
-},
-{
-"t": "Aserejé",
-"a": "Las Ketchup",
-"y": 2002,
-"l": "es",
-"v": "hLeUL4i9PNw"
-},
-{
-"t": "Ave María",
-"a": "David Bisbal",
-"y": 2002,
-"l": "es",
-"v": "gra-sIV1n4U"
-},
-{
-"t": "Rosas",
-"a": "La Oreja de Van Gogh",
-"y": 2003,
-"l": "es",
-"v": "nYnLVWXmRm8"
-},
-{
-"t": "Soldadito marinero",
-"a": "Fito y Fitipaldis",
-"y": 2003,
-"l": "es",
-"v": "GxQjx7FkmNA"
-},
-{
-"t": "Gasolina",
-"a": "Daddy Yankee",
-"y": 2004,
-"l": "es",
-"v": "CCF1_jI8Prk"
-},
-{
-"t": "La camisa negra",
-"a": "Juanes",
-"y": 2005,
-"l": "es",
-"v": "kRt2sRyup6A"
-},
-{
-"t": "La tortura",
-"a": "Shakira",
-"y": 2005,
-"l": "es",
-"v": "Dsp_8Lm1eSk"
-},
-{
-"t": "Zapatillas",
-"a": "El Canto del Loco",
-"y": 2005,
-"l": "es",
-"v": "nHxam-MQg-o"
-},
-{
-"t": "Caminando por la vida",
-"a": "Melendi",
-"y": 2005,
-"l": "es",
-"v": "ivFX1_TSQFY"
-},
-{
-"t": "Copenhague",
-"a": "Vetusta Morla",
-"y": 2008,
-"l": "es",
-"v": "4LEF7m8Ed8U"
-},
-{
-"t": "Danza Kuduro",
-"a": "Don Omar",
-"y": 2010,
-"l": "es",
-"v": "7zp1TbLFPp8"
-},
-{
-"t": "Solamente tú",
-"a": "Pablo Alborán",
-"y": 2010,
-"l": "es",
-"v": "F0rwOsAteXM"
-},
-{
-"t": "Bailando",
-"a": "Enrique Iglesias",
-"y": 2014,
-"l": "es",
-"v": "NUsoVlDFqZg"
-},
-{
-"t": "Despacito",
-"a": "Luis Fonsi",
-"y": 2017,
-"l": "es",
-"v": "kJQP7kiw5Fk"
-},
-{
-"t": "Mi gente",
-"a": "J Balvin",
-"y": 2017,
-"l": "es",
-"v": "wnJ6LuUFpMo"
-},
-{
-"t": "Malamente",
-"a": "Rosalía",
-"y": 2018,
-"l": "es",
-"v": "Rht7rBHuXW8"
-},
-{
-"t": "Lo malo",
-"a": "Aitana y Ana Guerra",
-"y": 2018,
-"l": "es",
-"v": "qYXCsZunjRM"
-},
-{
-"t": "Tú me dejaste de querer",
-"a": "C. Tangana",
-"y": 2020,
-"l": "es",
-"v": "ltmO9XQVdSg"
-},
-{
-"t": "Dákiti",
-"a": "Bad Bunny",
-"y": 2020,
-"l": "es",
-"v": "TmKh7lAwnBI"
-},
-{
-"t": "Todo de ti",
-"a": "Rauw Alejandro",
-"y": 2021,
-"l": "es",
-"v": "CFPLIaMpGrY"
-},
-{
-"t": "Quevedo: Bzrp Music Sessions, Vol. 52",
-"a": "Bizarrap y Quevedo",
-"y": 2022,
-"l": "es",
-"v": "A_g3lMcWVy0"
-},
-{
-"t": "Provenza",
-"a": "Karol G",
-"y": 2022,
-"l": "es",
-"v": "ca48oMV59LU"
-},
-{
-"t": "SloMo",
-"a": "Chanel",
-"y": 2022,
-"l": "es",
-"v": "Dwyefl6itpI"
-},
-{
-"t": "Despechá",
-"a": "Rosalía",
-"y": 2022,
-"l": "es",
-"v": "5g2hT4GmAGU"
-},
-{
-"t": "Tití me preguntó",
-"a": "Bad Bunny",
-"y": 2022,
-"l": "es",
-"v": "Cr8K88UcO0s"
-},
-{
-"t": "Shakira: Bzrp Music Sessions, Vol. 53",
-"a": "Shakira y Bizarrap",
-"y": 2023,
-"l": "es",
-"v": "CocEMWdc7Ck"
-},
-{
-"t": "Si antes te hubiera conocido",
-"a": "Karol G",
-"y": 2024,
-"l": "es",
-"v": "MgsdDfdGdHc"
-},
-{
-"t": "DtMF",
-"a": "Bad Bunny",
-"y": 2025,
-"l": "es",
-"v": "v9T_MGfzq7I"
-},
-{
-"t": "Stand by Me",
-"a": "Ben E. King",
-"y": 1961,
-"l": "int",
-"v": "pKtLNYNWbBw"
-},
-{
-"t": "Can't Help Falling in Love",
-"a": "Elvis Presley",
-"y": 1961,
-"l": "int",
-"v": "vGJTaP6anOU"
-},
-{
-"t": "The House of the Rising Sun",
-"a": "The Animals",
-"y": 1964,
-"l": "int",
-"v": "PqW4GCmQSt4"
-},
-{
-"t": "(I Can't Get No) Satisfaction",
-"a": "The Rolling Stones",
-"y": 1965,
-"l": "int",
-"v": "nrIPxlFzDi0"
-},
-{
-"t": "Good Vibrations",
-"a": "The Beach Boys",
-"y": 1966,
-"l": "int",
-"v": "apBWI6xrbLY"
-},
-{
-"t": "Respect",
-"a": "Aretha Franklin",
-"y": 1967,
-"l": "int",
-"v": "A134hShx_gw"
-},
-{
-"t": "Ain't No Mountain High Enough",
-"a": "Marvin Gaye y Tammi Terrell",
-"y": 1967,
-"l": "int",
-"v": "ABfQuZqq8wg"
-},
-{
-"t": "Hey Jude",
-"a": "The Beatles",
-"y": 1968,
-"l": "int",
-"v": "A_MjCqQoLLA"
-},
-{
-"t": "Mrs. Robinson",
-"a": "Simon & Garfunkel",
-"y": 1968,
-"l": "int",
-"v": "9C1BCAgu2I8"
-},
-{
-"t": "Imagine",
-"a": "John Lennon",
-"y": 1971,
-"l": "int",
-"v": "VOgFZfRVaww"
-},
-{
-"t": "Rocket Man",
-"a": "Elton John",
-"y": 1972,
-"l": "int",
-"v": "DtVBCG6ThDk"
-},
-{
-"t": "Bohemian Rhapsody",
-"a": "Queen",
-"y": 1975,
-"l": "int",
-"v": "fJ9rUzIMcZQ"
-},
-{
-"t": "Dancing Queen",
-"a": "ABBA",
-"y": 1976,
-"l": "int",
-"v": "xFrGuyw1V8s"
-},
-{
-"t": "Hotel California",
-"a": "Eagles",
-"y": 1976,
-"l": "int",
-"v": "dLl4PZtxia8"
-},
-{
-"t": "Stayin' Alive",
-"a": "Bee Gees",
-"y": 1977,
-"l": "int",
-"v": "fNFzfwLM72c"
-},
-{
-"t": "Dreams",
-"a": "Fleetwood Mac",
-"y": 1977,
-"l": "int",
-"v": "Y3ywicffOj4"
-},
-{
-"t": "I Feel Love",
-"a": "Donna Summer",
-"y": 1977,
-"l": "int",
-"v": "yEbaeLv-aOo"
-},
-{
-"t": "Heroes",
-"a": "David Bowie",
-"y": 1977,
-"l": "int",
-"v": "lXgkuM2NhYI"
-},
-{
-"t": "I Will Survive",
-"a": "Gloria Gaynor",
-"y": 1978,
-"l": "int",
-"v": "6dYWe1c3OyU"
-},
-{
-"t": "Y.M.C.A.",
-"a": "Village People",
-"y": 1978,
-"l": "int",
-"v": "CS9OO0S5w2k"
-},
-{
-"t": "Rasputin",
-"a": "Boney M.",
-"y": 1978,
-"l": "int",
-"v": "Nl_Eo2QzqU4"
-},
-{
-"t": "September",
-"a": "Earth, Wind & Fire",
-"y": 1978,
-"l": "int",
-"v": "Gs069dndIYk"
-},
-{
-"t": "Sultans of Swing",
-"a": "Dire Straits",
-"y": 1978,
-"l": "int",
-"v": "h0ffIJ7ZO4U"
-},
-{
-"t": "Another Brick in the Wall, Pt. 2",
-"a": "Pink Floyd",
-"y": 1979,
-"l": "int",
-"v": "HrxX9TBj2zY"
-},
-{
-"t": "Another One Bites the Dust",
-"a": "Queen",
-"y": 1980,
-"l": "int",
-"v": "rY0WxgSXdEE"
-},
-{
-"t": "Don't Stop Believin'",
-"a": "Journey",
-"y": 1981,
-"l": "int",
-"v": "1k8craCGpgs"
-},
-{
-"t": "Africa",
-"a": "Toto",
-"y": 1982,
-"l": "int",
-"v": "FTQbiNvZqaY"
-},
-{
-"t": "Eye of the Tiger",
-"a": "Survivor",
-"y": 1982,
-"l": "int",
-"v": "btPJPFnesV4"
-},
-{
-"t": "Billie Jean",
-"a": "Michael Jackson",
-"y": 1982,
-"l": "int",
-"v": "Zi_XLOBDo_Y"
-},
-{
-"t": "Every Breath You Take",
-"a": "The Police",
-"y": 1983,
-"l": "int",
-"v": "OMOGaugKpzs"
-},
-{
-"t": "Girls Just Want to Have Fun",
-"a": "Cyndi Lauper",
-"y": 1983,
-"l": "int",
-"v": "PIb6AZdTr-A"
-},
-{
-"t": "Sweet Dreams (Are Made of This)",
-"a": "Eurythmics",
-"y": 1983,
-"l": "int",
-"v": "qeMFqkcPYcg"
-},
-{
-"t": "Purple Rain",
-"a": "Prince",
-"y": 1984,
-"l": "int",
-"v": "uW1UIDYmYyI"
-},
-{
-"t": "Footloose",
-"a": "Kenny Loggins",
-"y": 1984,
-"l": "int",
-"v": "ltrMfT4Qz5Y"
-},
-{
-"t": "Take On Me",
-"a": "a-ha",
-"y": 1985,
-"l": "int",
-"v": "djV11Xbc914"
-},
-{
-"t": "Everybody Wants to Rule the World",
-"a": "Tears for Fears",
-"y": 1985,
-"l": "int",
-"v": "aGCdLKXNF3w"
-},
-{
-"t": "Running Up That Hill",
-"a": "Kate Bush",
-"y": 1985,
-"l": "int",
-"v": "wp43OdtAAkM"
-},
-{
-"t": "Livin' on a Prayer",
-"a": "Bon Jovi",
-"y": 1986,
-"l": "int",
-"v": "lDK9QqIzhwk"
-},
-{
-"t": "The Final Countdown",
-"a": "Europe",
-"y": 1986,
-"l": "int",
-"v": "9jK-NcRmVcw"
-},
-{
-"t": "Never Gonna Give You Up",
-"a": "Rick Astley",
-"y": 1987,
-"l": "int",
-"v": "dQw4w9WgXcQ"
-},
-{
-"t": "I Wanna Dance with Somebody",
-"a": "Whitney Houston",
-"y": 1987,
-"l": "int",
-"v": "eH3giaIzONA"
-},
-{
-"t": "Sweet Child o' Mine",
-"a": "Guns N' Roses",
-"y": 1987,
-"l": "int",
-"v": "1w7OgIMMRc4"
-},
-{
-"t": "Bad",
-"a": "Michael Jackson",
-"y": 1987,
-"l": "int",
-"v": "dsUXAEzaC3Q"
-},
-{
-"t": "Like a Prayer",
-"a": "Madonna",
-"y": 1989,
-"l": "int",
-"v": "79fzeNUqQbQ"
-},
-{
-"t": "Smells Like Teen Spirit",
-"a": "Nirvana",
-"y": 1991,
-"l": "int",
-"v": "hTWKbfoikeg"
-},
-{
-"t": "Losing My Religion",
-"a": "R.E.M.",
-"y": 1991,
-"l": "int",
-"v": "xwtdhWltSIg"
-},
-{
-"t": "I Will Always Love You",
-"a": "Whitney Houston",
-"y": 1992,
-"l": "int",
-"v": "3JWTaaS7LdU"
-},
-{
-"t": "What Is Love",
-"a": "Haddaway",
-"y": 1993,
-"l": "int",
-"v": "xCwAriSmaFI"
-},
-{
-"t": "Zombie",
-"a": "The Cranberries",
-"y": 1994,
-"l": "int",
-"v": "6Ejga4kJUts"
-},
-{
-"t": "Wonderwall",
-"a": "Oasis",
-"y": 1995,
-"l": "int",
-"v": "6hzrDeceEKc"
-},
-{
-"t": "Gangsta's Paradise",
-"a": "Coolio",
-"y": 1995,
-"l": "int",
-"v": "SQCSxqScSVQ"
-},
-{
-"t": "Wannabe",
-"a": "Spice Girls",
-"y": 1996,
-"l": "int",
-"v": "gJLIiF15wjQ"
-},
-{
-"t": "Barbie Girl",
-"a": "Aqua",
-"y": 1997,
-"l": "int",
-"v": "ZyhrYis509A"
-},
-{
-"t": "My Heart Will Go On",
-"a": "Celine Dion",
-"y": 1997,
-"l": "int",
-"v": "9bFHsd3o1w0"
-},
-{
-"t": "...Baby One More Time",
-"a": "Britney Spears",
-"y": 1998,
-"l": "int",
-"v": "C-u5WLJ9Yk4"
-},
-{
-"t": "Blue (Da Ba Dee)",
-"a": "Eiffel 65",
-"y": 1998,
-"l": "int",
-"v": "kyzIQKuSqBs"
-},
-{
-"t": "I Want It That Way",
-"a": "Backstreet Boys",
-"y": 1999,
-"l": "int",
-"v": "4fndeDfaWCg"
-},
-{
-"t": "Californication",
-"a": "Red Hot Chili Peppers",
-"y": 1999,
-"l": "int",
-"v": "YlUKcNNmywk"
-},
-{
-"t": "In the End",
-"a": "Linkin Park",
-"y": 2000,
-"l": "int",
-"v": "eVTXPUF4Oz4"
-},
-{
-"t": "Can't Get You Out of My Head",
-"a": "Kylie Minogue",
-"y": 2001,
-"l": "int",
-"v": "c18441Eh_WE"
-},
-{
-"t": "Lose Yourself",
-"a": "Eminem",
-"y": 2002,
-"l": "int",
-"v": "xFYQQPAOz7Y"
-},
-{
-"t": "Hey Ya!",
-"a": "OutKast",
-"y": 2003,
-"l": "int",
-"v": "PWgvGjAhvIw"
-},
-{
-"t": "Crazy in Love",
-"a": "Beyoncé",
-"y": 2003,
-"l": "int",
-"v": "ViwtNLUqkMY"
-},
-{
-"t": "Mr. Brightside",
-"a": "The Killers",
-"y": 2003,
-"l": "int",
-"v": "l7MaKmKJqoc"
-},
-{
-"t": "Toxic",
-"a": "Britney Spears",
-"y": 2003,
-"l": "int",
-"v": "LOZuxwVk7TU"
-},
-{
-"t": "Hips Don't Lie",
-"a": "Shakira",
-"y": 2006,
-"l": "int",
-"v": "DUT5rEU6pqM"
-},
-{
-"t": "Rehab",
-"a": "Amy Winehouse",
-"y": 2006,
-"l": "int",
-"v": "KUmZp8pR1uc"
-},
-{
-"t": "Crazy",
-"a": "Gnarls Barkley",
-"y": 2006,
-"l": "int",
-"v": "-N4jf6rtyuw"
-},
-{
-"t": "Umbrella",
-"a": "Rihanna",
-"y": 2007,
-"l": "int",
-"v": "CvBfHwUxHIk"
-},
-{
-"t": "Poker Face",
-"a": "Lady Gaga",
-"y": 2008,
-"l": "int",
-"v": "bESGLojNYSo"
-},
-{
-"t": "Viva la Vida",
-"a": "Coldplay",
-"y": 2008,
-"l": "int",
-"v": "dvgZkm1xWPE"
-},
-{
-"t": "I Gotta Feeling",
-"a": "The Black Eyed Peas",
-"y": 2009,
-"l": "int",
-"v": "uSD4vsh1zDA"
-},
-{
-"t": "Waka Waka (This Time for Africa)",
-"a": "Shakira",
-"y": 2010,
-"l": "int",
-"v": "pRpeEdMmmQ0"
-},
-{
-"t": "Firework",
-"a": "Katy Perry",
-"y": 2010,
-"l": "int",
-"v": "QGJuMBdaqIw"
-},
-{
-"t": "Rolling in the Deep",
-"a": "Adele",
-"y": 2010,
-"l": "int",
-"v": "rYEDA3JcQqw"
-},
-{
-"t": "Somebody That I Used to Know",
-"a": "Gotye",
-"y": 2011,
-"l": "int",
-"v": "8UVNT4wvIGY"
-},
-{
-"t": "Party Rock Anthem",
-"a": "LMFAO",
-"y": 2011,
-"l": "int",
-"v": "KQ6zr6kCPj8"
-},
-{
-"t": "Call Me Maybe",
-"a": "Carly Rae Jepsen",
-"y": 2011,
-"l": "int",
-"v": "fWNaR-rxAic"
-},
-{
-"t": "Gangnam Style",
-"a": "PSY",
-"y": 2012,
-"l": "int",
-"v": "9bZkp7q19f0"
-},
-{
-"t": "Get Lucky",
-"a": "Daft Punk",
-"y": 2013,
-"l": "int",
-"v": "5NV6Rdv1a3I"
-},
-{
-"t": "Happy",
-"a": "Pharrell Williams",
-"y": 2013,
-"l": "int",
-"v": "ZbZSe6N_BXs"
-},
-{
-"t": "Wake Me Up",
-"a": "Avicii",
-"y": 2013,
-"l": "int",
-"v": "IcrbM1l_BoI"
-},
-{
-"t": "Royals",
-"a": "Lorde",
-"y": 2013,
-"l": "int",
-"v": "nlcIKh6sBtc"
-},
-{
-"t": "Uptown Funk",
-"a": "Mark Ronson ft. Bruno Mars",
-"y": 2014,
-"l": "int",
-"v": "OPf0YbXqDm0"
-},
-{
-"t": "Shake It Off",
-"a": "Taylor Swift",
-"y": 2014,
-"l": "int",
-"v": "nfWlot6h_JM"
-},
-{
-"t": "Hello",
-"a": "Adele",
-"y": 2015,
-"l": "int",
-"v": "YQHsXMglC9A"
-},
-{
-"t": "Shape of You",
-"a": "Ed Sheeran",
-"y": 2017,
-"l": "int",
-"v": "JGwWNGJdvx8"
-},
-{
-"t": "Believer",
-"a": "Imagine Dragons",
-"y": 2017,
-"l": "int",
-"v": "7wtfhZwyrcc"
-},
-{
-"t": "Bad Guy",
-"a": "Billie Eilish",
-"y": 2019,
-"l": "int",
-"v": "DyDfgMOUjCI"
-},
-{
-"t": "Blinding Lights",
-"a": "The Weeknd",
-"y": 2019,
-"l": "int",
-"v": "fHI8X4OXluQ"
-},
-{
-"t": "Levitating",
-"a": "Dua Lipa",
-"y": 2020,
-"l": "int",
-"v": "TUVcZfQe-Kw"
-},
-{
-"t": "Heat Waves",
-"a": "Glass Animals",
-"y": 2020,
-"l": "int",
-"v": "mRD0-GxqHVo"
-},
-{
-"t": "drivers license",
-"a": "Olivia Rodrigo",
-"y": 2021,
-"l": "int",
-"v": "ZmDBbnmKpqQ"
-},
-{
-"t": "As It Was",
-"a": "Harry Styles",
-"y": 2022,
-"l": "int",
-"v": "H5v3kku4y6Q"
-},
-{
-"t": "Flowers",
-"a": "Miley Cyrus",
-"y": 2023,
-"l": "int",
-"v": "G7KNmW9a75Y"
-},
-{
-"t": "Espresso",
-"a": "Sabrina Carpenter",
-"y": 2024,
-"l": "int",
-"v": "eVli-tstM5E"
-},
-{
-"t": "Birds of a Feather",
-"a": "Billie Eilish",
-"y": 2024,
-"l": "int",
-"v": "V9PVRfjEBTI"
-},
-{
-"t": "Die with a Smile",
-"a": "Lady Gaga y Bruno Mars",
-"y": 2024,
-"l": "int",
-"v": "kPa7bsKwL-c"
-}
+{"t": "Yo soy aquel", "a": "Raphael", "y": 1966, "l": "es", "v": "TEwWrpebnkM", "d": 159},
+{"t": "La, la, la", "a": "Massiel", "y": 1968, "l": "es", "v": "6KIKTWCQ6fc", "d": 152},
+{"t": "Cuéntame", "a": "Fórmula V", "y": 1969, "l": "es", "v": "j9cuTIPNMbY", "d": 168},
+{"t": "Un rayo de sol", "a": "Los Diablos", "y": 1970, "l": "es", "v": "BUCVmOnKDHo", "d": 210},
+{"t": "Mediterráneo", "a": "Joan Manuel Serrat", "y": 1971, "l": "es", "v": "Cx5ENAFTLZg", "d": 202},
+{"t": "Borriquito", "a": "Peret", "y": 1971, "l": "es", "v": "5nchCNteFm0", "d": 212},
+{"t": "Libre", "a": "Nino Bravo", "y": 1972, "l": "es", "v": "Qr_xKvt4HFM", "d": 249},
+{"t": "Eres tú", "a": "Mocedades", "y": 1973, "l": "es", "v": "A5vaIjBQnmk", "d": 195},
+{"t": "Porque te vas", "a": "Jeanette", "y": 1974, "l": "es", "v": "TjUhXbGdLYo", "d": 198},
+{"t": "Te estoy amando locamente", "a": "Las Grecas", "y": 1974, "l": "es", "v": "7n0-N9qnXXQ", "d": 198},
+{"t": "Para hacer bien el amor hay que venir al sur", "a": "Raffaella Carrà", "y": 1976, "l": "es", "v": "0xvUdyVKZg4", "d": 227},
+{"t": "Vivir así es morir de amor", "a": "Camilo Sesto", "y": 1978, "l": "es", "v": "nZShzrtpq6A", "d": 219},
+{"t": "Soy un truhán, soy un señor", "a": "Julio Iglesias", "y": 1978, "l": "es", "v": "aA0Yg192J3g", "d": 186},
+{"t": "Me quedo contigo", "a": "Los Chunguitos", "y": 1980, "l": "es", "v": "YWl5kersybU", "d": 216},
+{"t": "Chica de ayer", "a": "Nacha Pop", "y": 1980, "l": "es", "v": "zQDOIdBZYSY", "d": 208},
+{"t": "Déjame", "a": "Los Secretos", "y": 1981, "l": "es", "v": "G8yKzRSpT2s", "d": 163},
+{"t": "Como una ola", "a": "Rocío Jurado", "y": 1981, "l": "es", "v": "ClC42sfrglc", "d": 300},
+{"t": "Me colé en una fiesta", "a": "Mecano", "y": 1982, "l": "es", "v": "FvVoBFxtHC8", "d": 273},
+{"t": "Bienvenidos", "a": "Miguel Ríos", "y": 1982, "l": "es", "v": "Rm-yZGvcf2U", "d": 243},
+{"t": "Cadillac solitario", "a": "Loquillo y Trogloditas", "y": 1983, "l": "es", "v": "vvitGvSA1EI", "d": 263},
+{"t": "Lobo hombre en París", "a": "La Unión", "y": 1984, "l": "es", "v": "sl4GO6pgRas", "d": 231},
+{"t": "Escuela de calor", "a": "Radio Futura", "y": 1984, "l": "es", "v": "LyCQvyrZzW0", "d": 208},
+{"t": "Devuélveme a mi chica", "a": "Hombres G", "y": 1985, "l": "es", "v": "sHQ9BdvZPco", "d": 194},
+{"t": "Venecia", "a": "Hombres G", "y": 1985, "l": "es", "v": "jvWP6JR1saE", "d": 286},
+{"t": "A quién le importa", "a": "Alaska y Dinarama", "y": 1986, "l": "es", "v": "IJGbBzgdr3o", "d": 204},
+{"t": "Hijo de la luna", "a": "Mecano", "y": 1986, "l": "es", "v": "OwGG5fX7bxY", "d": 258},
+{"t": "Cruz de navajas", "a": "Mecano", "y": 1986, "l": "es", "v": "QXVu4piSNoQ", "d": 303},
+{"t": "En algún lugar", "a": "Duncan Dhu", "y": 1987, "l": "es", "v": "H1eAvX-8g08", "d": 243},
+{"t": "Camino Soria", "a": "Gabinete Caligari", "y": 1987, "l": "es", "v": "Q_j6iSwXCD4", "d": 388},
+{"t": "Eloise", "a": "Tino Casal", "y": 1987, "l": "es", "v": "LVxCCdooXec", "d": 332},
+{"t": "Como un burro amarrado en la puerta del baile", "a": "El Último de la Fila", "y": 1988, "l": "es", "v": "V0T_6bxb73Q", "d": 216},
+{"t": "El chiringuito", "a": "Georgie Dann", "y": 1988, "l": "es", "v": "JhsYLLH4GB4", "d": 191},
+{"t": "Entre dos tierras", "a": "Héroes del Silencio", "y": 1990, "l": "es", "v": "SzimletXB7M", "d": 369},
+{"t": "Burbujas de amor", "a": "Juan Luis Guerra", "y": 1990, "l": "es", "v": "v0ckuv1xBm0", "d": 248},
+{"t": "De música ligera", "a": "Soda Stereo", "y": 1990, "l": "es", "v": "T_FkEw27XJ0", "d": 210},
+{"t": "20 de abril", "a": "Celtas Cortos", "y": 1991, "l": "es", "v": "sMvPN3349og", "d": 339},
+{"t": "Cómo hemos cambiado", "a": "Presuntos Implicados", "y": 1991, "l": "es", "v": "iQvom61kCTg", "d": 257},
+{"t": "Mi tierra", "a": "Gloria Estefan", "y": 1993, "l": "es", "v": "WWAWQmhqWGo", "d": 276},
+{"t": "Sin documentos", "a": "Los Rodríguez", "y": 1993, "l": "es", "v": "BUKHMGiW_rY", "d": 247},
+{"t": "Macarena", "a": "Los del Río", "y": 1993, "l": "es", "v": "cV0FxPZ3YR0", "d": 256},
+{"t": "Desesperada", "a": "Marta Sánchez", "y": 1993, "l": "es", "v": "ZExJASxybT0", "d": 224},
+{"t": "Cuando zarpa el amor", "a": "Camela", "y": 1994, "l": "es", "v": "POePrzXBI9Q", "d": 347},
+{"t": "Experiencia religiosa", "a": "Enrique Iglesias", "y": 1995, "l": "es", "v": "y-n935vlTpA", "d": 332},
+{"t": "No estamos lokos", "a": "Ketama", "y": 1995, "l": "es", "v": "3Yc9LYt69Ls", "d": 276},
+{"t": "Estoy aquí", "a": "Shakira", "y": 1995, "l": "es", "v": "NmJHH026X0c", "d": 251},
+{"t": "Lo echamos a suertes", "a": "Ella Baila Sola", "y": 1996, "l": "es", "v": "stYs4VQBbrE", "d": 237},
+{"t": "So payaso", "a": "Extremoduro", "y": 1996, "l": "es", "v": "1D3tSv9LQlE", "d": 282},
+{"t": "La flaca", "a": "Jarabe de Palo", "y": 1996, "l": "es", "v": "r2g0pM3PMNQ", "d": 263},
+{"t": "El talismán", "a": "Rosana", "y": 1996, "l": "es", "v": "XmZqIn6BiOs", "d": 219},
+{"t": "Corazón partío", "a": "Alejandro Sanz", "y": 1997, "l": "es", "v": "ALbxIboSbMU", "d": 300},
+{"t": "Amiga mía", "a": "Alejandro Sanz", "y": 1997, "l": "es", "v": "LE8ip1ZFwtM", "d": 304},
+{"t": "Clavado en un bar", "a": "Maná", "y": 1997, "l": "es", "v": "fBrX8ym3dBM", "d": 261},
+{"t": "La copa de la vida", "a": "Ricky Martin", "y": 1998, "l": "es", "v": "tF_ggG5dY5U", "d": 267},
+{"t": "Ciega, sordomuda", "a": "Shakira", "y": 1998, "l": "es", "v": "B3gbisdtJnA", "d": 267},
+{"t": "La raja de tu falda", "a": "Estopa", "y": 1999, "l": "es", "v": "DaX7WSx2npE", "d": 203},
+{"t": "Como Camarón", "a": "Estopa", "y": 1999, "l": "es", "v": "JmP89cIGJZM", "d": 208},
+{"t": "19 días y 500 noches", "a": "Joaquín Sabina", "y": 1999, "l": "es", "v": "qahBeZB1g54", "d": 278},
+{"t": "Me gustas tú", "a": "Manu Chao", "y": 2001, "l": "es", "v": "rs6Y4kZ8qtw", "d": 240},
+{"t": "El baile del gorila", "a": "Melody", "y": 2001, "l": "es", "v": "90avMgG5NAM", "d": 202},
+{"t": "Sin ti no soy nada", "a": "Amaral", "y": 2002, "l": "es", "v": "qcC92ZnhGQY", "d": 263},
+{"t": "Ave María", "a": "David Bisbal", "y": 2002, "l": "es", "v": "gra-sIV1n4U", "d": 209},
+{"t": "A Dios le pido", "a": "Juanes", "y": 2002, "l": "es", "v": "kMIaYXxLnUA", "d": 211},
+{"t": "Aserejé", "a": "Las Ketchup", "y": 2002, "l": "es", "v": "hLeUL4i9PNw", "d": 216},
+{"t": "Soldadito marinero", "a": "Fito y Fitipaldis", "y": 2003, "l": "es", "v": "GxQjx7FkmNA", "d": 240},
+{"t": "Rosas", "a": "La Oreja de Van Gogh", "y": 2003, "l": "es", "v": "nYnLVWXmRm8", "d": 232},
+{"t": "Malo", "a": "Bebe", "y": 2004, "l": "es", "v": "90GqAf3zJ8s", "d": 219},
+{"t": "Gasolina", "a": "Daddy Yankee", "y": 2004, "l": "es", "v": "CCF1_jI8Prk", "d": 254},
+{"t": "Zapatillas", "a": "El Canto del Loco", "y": 2005, "l": "es", "v": "nHxam-MQg-o", "d": 172},
+{"t": "La camisa negra", "a": "Juanes", "y": 2005, "l": "es", "v": "kRt2sRyup6A", "d": 247},
+{"t": "Caminando por la vida", "a": "Melendi", "y": 2005, "l": "es", "v": "ivFX1_TSQFY", "d": 205},
+{"t": "La tortura", "a": "Shakira", "y": 2005, "l": "es", "v": "Dsp_8Lm1eSk", "d": 225},
+{"t": "Copenhague", "a": "Vetusta Morla", "y": 2008, "l": "es", "v": "4LEF7m8Ed8U", "d": 305},
+{"t": "Danza Kuduro", "a": "Don Omar", "y": 2010, "l": "es", "v": "7zp1TbLFPp8", "d": 235},
+{"t": "Solamente tú", "a": "Pablo Alborán", "y": 2010, "l": "es", "v": "F0rwOsAteXM", "d": 258},
+{"t": "Bailando", "a": "Enrique Iglesias", "y": 2014, "l": "es", "v": "NUsoVlDFqZg", "d": 287},
+{"t": "La bicicleta", "a": "Carlos Vives y Shakira", "y": 2016, "l": "es", "v": "-UV0QGLmYys", "d": 238},
+{"t": "Hasta el amanecer", "a": "Nicky Jam", "y": 2016, "l": "es", "v": "kkx-7fsiWgg", "d": 246},
+{"t": "Traicionera", "a": "Sebastián Yatra", "y": 2016, "l": "es", "v": "NE3IkFadCHM", "d": 241},
+{"t": "Mi gente", "a": "J Balvin", "y": 2017, "l": "es", "v": "wnJ6LuUFpMo", "d": 186},
+{"t": "Despacito", "a": "Luis Fonsi", "y": 2017, "l": "es", "v": "kJQP7kiw5Fk", "d": 282},
+{"t": "Felices los 4", "a": "Maluma", "y": 2017, "l": "es", "v": "t_jHrUE5IOk", "d": 291},
+{"t": "Lo malo", "a": "Aitana y Ana Guerra", "y": 2018, "l": "es", "v": "qYXCsZunjRM", "d": 192},
+{"t": "Malamente", "a": "Rosalía", "y": 2018, "l": "es", "v": "Rht7rBHuXW8", "d": 168},
+{"t": "Con altura", "a": "Rosalía y J Balvin", "y": 2019, "l": "es", "v": "p7bfOZek9t4", "d": 165},
+{"t": "Dákiti", "a": "Bad Bunny", "y": 2020, "l": "es", "v": "TmKh7lAwnBI", "d": 214},
+{"t": "Tú me dejaste de querer", "a": "C. Tangana", "y": 2020, "l": "es", "v": "ltmO9XQVdSg", "d": 198},
+{"t": "Todo de ti", "a": "Rauw Alejandro", "y": 2021, "l": "es", "v": "CFPLIaMpGrY", "d": 212},
+{"t": "Tití me preguntó", "a": "Bad Bunny", "y": 2022, "l": "es", "v": "Cr8K88UcO0s", "d": 290},
+{"t": "Quevedo: Bzrp Music Sessions, Vol. 52", "a": "Bizarrap y Quevedo", "y": 2022, "l": "es", "v": "A_g3lMcWVy0", "d": 204},
+{"t": "SloMo", "a": "Chanel", "y": 2022, "l": "es", "v": "Dwyefl6itpI", "d": 173},
+{"t": "Provenza", "a": "Karol G", "y": 2022, "l": "es", "v": "ca48oMV59LU", "d": 226},
+{"t": "Despechá", "a": "Rosalía", "y": 2022, "l": "es", "v": "5g2hT4GmAGU", "d": 159},
+{"t": "Monaco", "a": "Bad Bunny", "y": 2023, "l": "es", "v": "_PJvpq8uOZM", "d": 440},
+{"t": "Ella baila sola", "a": "Eslabon Armado y Peso Pluma", "y": 2023, "l": "es", "v": "lZiaYpD9ZrI", "d": 188},
+{"t": "Columbia", "a": "Quevedo", "y": 2023, "l": "es", "v": "QlZNGcVfeF0", "d": 205},
+{"t": "Shakira: Bzrp Music Sessions, Vol. 53", "a": "Shakira y Bizarrap", "y": 2023, "l": "es", "v": "CocEMWdc7Ck", "d": 218},
+{"t": "Si antes te hubiera conocido", "a": "Karol G", "y": 2024, "l": "es", "v": "MgsdDfdGdHc", "d": 275},
+{"t": "DtMF", "a": "Bad Bunny", "y": 2025, "l": "es", "v": "v9T_MGfzq7I", "d": 240},
+{"t": "Jailhouse Rock", "a": "Elvis Presley", "y": 1957, "l": "int", "v": "PpsUOOfb-vE", "d": 156},
+{"t": "Johnny B. Goode", "a": "Chuck Berry", "y": 1958, "l": "int", "v": "Y-9Y4CCIWnM", "d": 163},
+{"t": "Stand by Me", "a": "Ben E. King", "y": 1961, "l": "int", "v": "pKtLNYNWbBw", "d": 183},
+{"t": "Can't Help Falling in Love", "a": "Elvis Presley", "y": 1961, "l": "int", "v": "vGJTaP6anOU", "d": 181},
+{"t": "The House of the Rising Sun", "a": "The Animals", "y": 1964, "l": "int", "v": "PqW4GCmQSt4", "d": 268},
+{"t": "You Really Got Me", "a": "The Kinks", "y": 1964, "l": "int", "v": "fTTsY-oz6Go", "d": 135},
+{"t": "(I Can't Get No) Satisfaction", "a": "The Rolling Stones", "y": 1965, "l": "int", "v": "nrIPxlFzDi0", "d": 235},
+{"t": "Good Vibrations", "a": "The Beach Boys", "y": 1966, "l": "int", "v": "apBWI6xrbLY", "d": 215},
+{"t": "Respect", "a": "Aretha Franklin", "y": 1967, "l": "int", "v": "A134hShx_gw", "d": 150},
+{"t": "Ain't No Mountain High Enough", "a": "Marvin Gaye y Tammi Terrell", "y": 1967, "l": "int", "v": "ABfQuZqq8wg", "d": 152},
+{"t": "Mrs. Robinson", "a": "Simon & Garfunkel", "y": 1968, "l": "int", "v": "9C1BCAgu2I8", "d": 244},
+{"t": "Hey Jude", "a": "The Beatles", "y": 1968, "l": "int", "v": "A_MjCqQoLLA", "d": 490},
+{"t": "Let It Be", "a": "The Beatles", "y": 1970, "l": "int", "v": "CGj85pVzRJs", "d": 243},
+{"t": "Imagine", "a": "John Lennon", "y": 1971, "l": "int", "v": "VOgFZfRVaww", "d": 194},
+{"t": "Rocket Man", "a": "Elton John", "y": 1972, "l": "int", "v": "DtVBCG6ThDk", "d": 282},
+{"t": "Bohemian Rhapsody", "a": "Queen", "y": 1975, "l": "int", "v": "fJ9rUzIMcZQ", "d": 359},
+{"t": "Dancing Queen", "a": "ABBA", "y": 1976, "l": "int", "v": "xFrGuyw1V8s", "d": 233},
+{"t": "Hotel California", "a": "Eagles", "y": 1976, "l": "int", "v": "dLl4PZtxia8", "d": 391},
+{"t": "Stayin' Alive", "a": "Bee Gees", "y": 1977, "l": "int", "v": "fNFzfwLM72c", "d": 250},
+{"t": "Heroes", "a": "David Bowie", "y": 1977, "l": "int", "v": "lXgkuM2NhYI", "d": 209},
+{"t": "I Feel Love", "a": "Donna Summer", "y": 1977, "l": "int", "v": "yEbaeLv-aOo", "d": 239},
+{"t": "Dreams", "a": "Fleetwood Mac", "y": 1977, "l": "int", "v": "Y3ywicffOj4", "d": 263},
+{"t": "Rasputin", "a": "Boney M.", "y": 1978, "l": "int", "v": "Nl_Eo2QzqU4", "d": 268},
+{"t": "Sultans of Swing", "a": "Dire Straits", "y": 1978, "l": "int", "v": "h0ffIJ7ZO4U", "d": 266},
+{"t": "September", "a": "Earth, Wind & Fire", "y": 1978, "l": "int", "v": "Gs069dndIYk", "d": 215},
+{"t": "I Will Survive", "a": "Gloria Gaynor", "y": 1978, "l": "int", "v": "6dYWe1c3OyU", "d": 194},
+{"t": "Y.M.C.A.", "a": "Village People", "y": 1978, "l": "int", "v": "CS9OO0S5w2k", "d": 241},
+{"t": "Another Brick in the Wall, Pt. 2", "a": "Pink Floyd", "y": 1979, "l": "int", "v": "HrxX9TBj2zY", "d": 199},
+{"t": "Could You Be Loved", "a": "Bob Marley & The Wailers", "y": 1980, "l": "int", "v": "1ti2YCFgCoI", "d": 241},
+{"t": "Another One Bites the Dust", "a": "Queen", "y": 1980, "l": "int", "v": "rY0WxgSXdEE", "d": 219},
+{"t": "Don't Stop Believin'", "a": "Journey", "y": 1981, "l": "int", "v": "1k8craCGpgs", "d": 250},
+{"t": "Billie Jean", "a": "Michael Jackson", "y": 1982, "l": "int", "v": "Zi_XLOBDo_Y", "d": 296},
+{"t": "Thriller", "a": "Michael Jackson", "y": 1982, "l": "int", "v": "4V90AmXnguw", "d": 201},
+{"t": "Eye of the Tiger", "a": "Survivor", "y": 1982, "l": "int", "v": "btPJPFnesV4", "d": 245},
+{"t": "Africa", "a": "Toto", "y": 1982, "l": "int", "v": "FTQbiNvZqaY", "d": 271},
+{"t": "Girls Just Want to Have Fun", "a": "Cyndi Lauper", "y": 1983, "l": "int", "v": "PIb6AZdTr-A", "d": 267},
+{"t": "Sweet Dreams (Are Made of This)", "a": "Eurythmics", "y": 1983, "l": "int", "v": "qeMFqkcPYcg", "d": 214},
+{"t": "Every Breath You Take", "a": "The Police", "y": 1983, "l": "int", "v": "OMOGaugKpzs", "d": 229},
+{"t": "Footloose", "a": "Kenny Loggins", "y": 1984, "l": "int", "v": "ltrMfT4Qz5Y", "d": 176},
+{"t": "Purple Rain", "a": "Prince", "y": 1984, "l": "int", "v": "uW1UIDYmYyI", "d": 522},
+{"t": "I Want to Break Free", "a": "Queen", "y": 1984, "l": "int", "v": "f4Mc-NYPHaQ", "d": 271},
+{"t": "Wake Me Up Before You Go-Go", "a": "Wham!", "y": 1984, "l": "int", "v": "pIgZ7gMze7A", "d": 233},
+{"t": "Running Up That Hill", "a": "Kate Bush", "y": 1985, "l": "int", "v": "wp43OdtAAkM", "d": 296},
+{"t": "Everybody Wants to Rule the World", "a": "Tears for Fears", "y": 1985, "l": "int", "v": "aGCdLKXNF3w", "d": 291},
+{"t": "Take On Me", "a": "a-ha", "y": 1985, "l": "int", "v": "djV11Xbc914", "d": 244},
+{"t": "Livin' on a Prayer", "a": "Bon Jovi", "y": 1986, "l": "int", "v": "lDK9QqIzhwk", "d": 249},
+{"t": "The Final Countdown", "a": "Europe", "y": 1986, "l": "int", "v": "9jK-NcRmVcw", "d": 296},
+{"t": "Walk Like an Egyptian", "a": "The Bangles", "y": 1986, "l": "int", "v": "Cv6tuzHUuuk", "d": 202},
+{"t": "Sweet Child o' Mine", "a": "Guns N' Roses", "y": 1987, "l": "int", "v": "1w7OgIMMRc4", "d": 303},
+{"t": "Bad", "a": "Michael Jackson", "y": 1987, "l": "int", "v": "dsUXAEzaC3Q", "d": 260},
+{"t": "Never Gonna Give You Up", "a": "Rick Astley", "y": 1987, "l": "int", "v": "dQw4w9WgXcQ", "d": 213},
+{"t": "I Wanna Dance with Somebody", "a": "Whitney Houston", "y": 1987, "l": "int", "v": "eH3giaIzONA", "d": 314},
+{"t": "Like a Prayer", "a": "Madonna", "y": 1989, "l": "int", "v": "79fzeNUqQbQ", "d": 337},
+{"t": "Smells Like Teen Spirit", "a": "Nirvana", "y": 1991, "l": "int", "v": "hTWKbfoikeg", "d": 278},
+{"t": "Losing My Religion", "a": "R.E.M.", "y": 1991, "l": "int", "v": "xwtdhWltSIg", "d": 294},
+{"t": "I Will Always Love You", "a": "Whitney Houston", "y": 1992, "l": "int", "v": "3JWTaaS7LdU", "d": 274},
+{"t": "What Is Love", "a": "Haddaway", "y": 1993, "l": "int", "v": "xCwAriSmaFI", "d": 402},
+{"t": "Zombie", "a": "The Cranberries", "y": 1994, "l": "int", "v": "6Ejga4kJUts", "d": 307},
+{"t": "Gangsta's Paradise", "a": "Coolio", "y": 1995, "l": "int", "v": "SQCSxqScSVQ", "d": 255},
+{"t": "Don't Speak", "a": "No Doubt", "y": 1995, "l": "int", "v": "TR3Vdo5etCQ", "d": 301},
+{"t": "Wonderwall", "a": "Oasis", "y": 1995, "l": "int", "v": "6hzrDeceEKc", "d": 279},
+{"t": "Wannabe", "a": "Spice Girls", "y": 1996, "l": "int", "v": "gJLIiF15wjQ", "d": 236},
+{"t": "Barbie Girl", "a": "Aqua", "y": 1997, "l": "int", "v": "ZyhrYis509A", "d": 201},
+{"t": "Song 2", "a": "Blur", "y": 1997, "l": "int", "v": "SSbBvKaM6sk", "d": 123},
+{"t": "My Heart Will Go On", "a": "Celine Dion", "y": 1997, "l": "int", "v": "9bFHsd3o1w0", "d": 281},
+{"t": "Man! I Feel Like a Woman!", "a": "Shania Twain", "y": 1997, "l": "int", "v": "ZJL4UGSbeFg", "d": 235},
+{"t": "...Baby One More Time", "a": "Britney Spears", "y": 1998, "l": "int", "v": "C-u5WLJ9Yk4", "d": 237},
+{"t": "Blue (Da Ba Dee)", "a": "Eiffel 65", "y": 1998, "l": "int", "v": "kyzIQKuSqBs", "d": 220},
+{"t": "I Want It That Way", "a": "Backstreet Boys", "y": 1999, "l": "int", "v": "4fndeDfaWCg", "d": 219},
+{"t": "Californication", "a": "Red Hot Chili Peppers", "y": 1999, "l": "int", "v": "YlUKcNNmywk", "d": 321},
+{"t": "Livin' la Vida Loca", "a": "Ricky Martin", "y": 1999, "l": "int", "v": "p47fEXGabaY", "d": 223},
+{"t": "One More Time", "a": "Daft Punk", "y": 2000, "l": "int", "v": "A2VpR8HahKc", "d": 320},
+{"t": "In the End", "a": "Linkin Park", "y": 2000, "l": "int", "v": "eVTXPUF4Oz4", "d": 218},
+{"t": "Can't Get You Out of My Head", "a": "Kylie Minogue", "y": 2001, "l": "int", "v": "c18441Eh_WE", "d": 230},
+{"t": "Lose Yourself", "a": "Eminem", "y": 2002, "l": "int", "v": "xFYQQPAOz7Y", "d": 328},
+{"t": "Crazy in Love", "a": "Beyoncé", "y": 2003, "l": "int", "v": "ViwtNLUqkMY", "d": 237},
+{"t": "Toxic", "a": "Britney Spears", "y": 2003, "l": "int", "v": "LOZuxwVk7TU", "d": 212},
+{"t": "Hey Ya!", "a": "OutKast", "y": 2003, "l": "int", "v": "PWgvGjAhvIw", "d": 304},
+{"t": "Mr. Brightside", "a": "The Killers", "y": 2003, "l": "int", "v": "l7MaKmKJqoc", "d": 222},
+{"t": "Feel Good Inc.", "a": "Gorillaz", "y": 2005, "l": "int", "v": "HyHNuVaZJ-k", "d": 255},
+{"t": "Rehab", "a": "Amy Winehouse", "y": 2006, "l": "int", "v": "KUmZp8pR1uc", "d": 213},
+{"t": "Crazy", "a": "Gnarls Barkley", "y": 2006, "l": "int", "v": "-N4jf6rtyuw", "d": 181},
+{"t": "Relax, Take It Easy", "a": "Mika", "y": 2006, "l": "int", "v": "9Xvn_Ku55cI", "d": 215},
+{"t": "Hips Don't Lie", "a": "Shakira", "y": 2006, "l": "int", "v": "DUT5rEU6pqM", "d": 218},
+{"t": "Umbrella", "a": "Rihanna", "y": 2007, "l": "int", "v": "CvBfHwUxHIk", "d": 254},
+{"t": "Viva la Vida", "a": "Coldplay", "y": 2008, "l": "int", "v": "dvgZkm1xWPE", "d": 242},
+{"t": "Poker Face", "a": "Lady Gaga", "y": 2008, "l": "int", "v": "bESGLojNYSo", "d": 214},
+{"t": "I Gotta Feeling", "a": "The Black Eyed Peas", "y": 2009, "l": "int", "v": "uSD4vsh1zDA", "d": 291},
+{"t": "Rolling in the Deep", "a": "Adele", "y": 2010, "l": "int", "v": "rYEDA3JcQqw", "d": 234},
+{"t": "Just the Way You Are", "a": "Bruno Mars", "y": 2010, "l": "int", "v": "LjhCEhWiKXk", "d": 237},
+{"t": "Firework", "a": "Katy Perry", "y": 2010, "l": "int", "v": "QGJuMBdaqIw", "d": 233},
+{"t": "Waka Waka (This Time for Africa)", "a": "Shakira", "y": 2010, "l": "int", "v": "pRpeEdMmmQ0", "d": 211},
+{"t": "Call Me Maybe", "a": "Carly Rae Jepsen", "y": 2011, "l": "int", "v": "fWNaR-rxAic", "d": 199},
+{"t": "Somebody That I Used to Know", "a": "Gotye", "y": 2011, "l": "int", "v": "8UVNT4wvIGY", "d": 244},
+{"t": "Party Rock Anthem", "a": "LMFAO", "y": 2011, "l": "int", "v": "KQ6zr6kCPj8", "d": 376},
+{"t": "Gangnam Style", "a": "PSY", "y": 2012, "l": "int", "v": "9bZkp7q19f0", "d": 252},
+{"t": "Wake Me Up", "a": "Avicii", "y": 2013, "l": "int", "v": "IcrbM1l_BoI", "d": 273},
+{"t": "Get Lucky", "a": "Daft Punk", "y": 2013, "l": "int", "v": "5NV6Rdv1a3I", "d": 249},
+{"t": "Royals", "a": "Lorde", "y": 2013, "l": "int", "v": "nlcIKh6sBtc", "d": 200},
+{"t": "Happy", "a": "Pharrell Williams", "y": 2013, "l": "int", "v": "ZbZSe6N_BXs", "d": 241},
+{"t": "Uptown Funk", "a": "Mark Ronson ft. Bruno Mars", "y": 2014, "l": "int", "v": "OPf0YbXqDm0", "d": 270},
+{"t": "Shake It Off", "a": "Taylor Swift", "y": 2014, "l": "int", "v": "nfWlot6h_JM", "d": 242},
+{"t": "Hello", "a": "Adele", "y": 2015, "l": "int", "v": "YQHsXMglC9A", "d": 367},
+{"t": "Lean On", "a": "Major Lazer y DJ Snake", "y": 2015, "l": "int", "v": "YqeW9_5kURI", "d": 179},
+{"t": "Shape of You", "a": "Ed Sheeran", "y": 2017, "l": "int", "v": "JGwWNGJdvx8", "d": 263},
+{"t": "Believer", "a": "Imagine Dragons", "y": 2017, "l": "int", "v": "7wtfhZwyrcc", "d": 217},
+{"t": "Bad Guy", "a": "Billie Eilish", "y": 2019, "l": "int", "v": "DyDfgMOUjCI", "d": 206},
+{"t": "Don't Start Now", "a": "Dua Lipa", "y": 2019, "l": "int", "v": "oygrmJFKYZY", "d": 181},
+{"t": "Blinding Lights", "a": "The Weeknd", "y": 2019, "l": "int", "v": "fHI8X4OXluQ", "d": 203},
+{"t": "Dance Monkey", "a": "Tones and I", "y": 2019, "l": "int", "v": "q0hyYWKXF0Q", "d": 236},
+{"t": "Levitating", "a": "Dua Lipa", "y": 2020, "l": "int", "v": "TUVcZfQe-Kw", "d": 230},
+{"t": "Heat Waves", "a": "Glass Animals", "y": 2020, "l": "int", "v": "mRD0-GxqHVo", "d": 235},
+{"t": "I Wanna Be Your Slave", "a": "Måneskin", "y": 2021, "l": "int", "v": "yOb9Xaug35M", "d": 173},
+{"t": "drivers license", "a": "Olivia Rodrigo", "y": 2021, "l": "int", "v": "ZmDBbnmKpqQ", "d": 247},
+{"t": "As It Was", "a": "Harry Styles", "y": 2022, "l": "int", "v": "H5v3kku4y6Q", "d": 166},
+{"t": "Flowers", "a": "Miley Cyrus", "y": 2023, "l": "int", "v": "G7KNmW9a75Y", "d": 202},
+{"t": "Birds of a Feather", "a": "Billie Eilish", "y": 2024, "l": "int", "v": "V9PVRfjEBTI", "d": 231},
+{"t": "Die with a Smile", "a": "Lady Gaga y Bruno Mars", "y": 2024, "l": "int", "v": "kPa7bsKwL-c", "d": 252},
+{"t": "Espresso", "a": "Sabrina Carpenter", "y": 2024, "l": "int", "v": "eVli-tstM5E", "d": 201}
 ]
