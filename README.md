@@ -9,7 +9,7 @@ Juego musical para jugar en grupo con un solo móvil o tablet: suena una canció
 1. Escribe los nombres de los jugadores o equipos (de 2 a 8).
 2. Elige cuántas cartas hacen falta para ganar, las listas de canciones y las décadas.
 3. Cada jugador empieza con una carta ya descubierta.
-4. En tu turno, pulsa **Escuchar**. Si quieres, escribe el artista y el título (el desplegable te ayuda). Toca el hueco de tu línea donde crees que va la canción y pulsa **Colocar aquí y ver el año**.
+4. En tu turno, pulsa **Escuchar**. Si quieres, escribe el artista y el título (cuando lo tienes casi entero escrito, aparece la forma correcta para corregir la ortografía, pero no te ayuda a adivinarlo). Toca el hueco de tu línea donde crees que va la canción y pulsa **Colocar aquí y ver el año**.
 5. Sumas 1 punto por colocarla bien (y te quedas la carta), 1 por el artista y 1 por el título. Pasa el móvil al siguiente.
    - **Reto de 5 segundos** (activado por defecto): la primera escucha dura solo 5 s. Si aciertas el título sin pedir **Escuchar más**, ganas 1 punto extra. Puedes repetir esos 5 s las veces que quieras sin perderlo.
 6. Cuando alguien llega a las cartas necesarias, gana quien más puntos tenga (si hay empate, quien tenga más cartas).

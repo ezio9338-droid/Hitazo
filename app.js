@@ -245,9 +245,9 @@ function renderGame() {
 
     ${revealed ? '' : `
     <section class="guess" aria-label="Adivina la canción">
-      ${guessField('a', 'Artista', 'Empieza a escribir, p. ej. «elvi»')}
+      ${guessField('a', 'Artista', 'Nombre del artista o grupo')}
       ${guessField('t', 'Canción', 'Título de la canción')}
-      <p class="guess-hint">Opcional. Cada acierto suma 1 punto, igual que colocar bien la carta.</p>
+      <p class="guess-hint">Opcional. Cada acierto suma 1 punto. Cuando lo tengas casi entero escrito, aparecerá la forma correcta para que la elijas.</p>
     </section>`}
 
     <div class="timeline-head">
@@ -406,18 +406,22 @@ function buildOptions() {
     t: [...new Set(SONGS.map(s => s.t))].sort(sortEs).map(v => ({ v, n: norm(v) })),
   };
 }
+// Solo corrector: una sugerencia aparece cuando ya has escrito al menos el 90 % del nombre
+// (contando letras, sin tildes ni signos), y se permiten pequeñas erratas. Así ayuda a
+// escribirlo bien, pero no a adivinarlo.
+const SUGGEST_MIN = 0.9;
 function suggestions(key, text) {
   const q = norm(text);
   if (!q) return [];
   const scored = [];
   for (const o of OPTIONS[key]) {
-    let r = -1;
-    if (o.n.startsWith(q)) r = 0;
-    else if (o.n.split(' ').some(w => w.startsWith(q))) r = 1;
-    else if (o.n.includes(q)) r = 2;
-    if (r >= 0) scored.push([r, o.v]);
+    if (q.length < Math.ceil(o.n.length * SUGGEST_MIN)) continue;
+    const tol = o.n.length >= 12 ? 2 : o.n.length >= 5 ? 1 : 0;
+    // Lo escrito debe parecerse al principio del nombre (o al nombre entero) con pocas erratas
+    const d = Math.min(lev(q, o.n.slice(0, q.length)), lev(q, o.n));
+    if (d <= tol) scored.push([d, o.v]);
   }
-  return scored.sort((a, b) => a[0] - b[0]).slice(0, 7).map(x => x[1]);
+  return scored.sort((a, b) => a[0] - b[0]).slice(0, 5).map(x => x[1]);
 }
 let acActive = -1;
 function showSuggest(input) {
