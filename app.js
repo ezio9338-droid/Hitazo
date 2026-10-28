@@ -406,10 +406,10 @@ function buildOptions() {
     t: [...new Set(SONGS.map(s => s.t))].sort(sortEs).map(v => ({ v, n: norm(v) })),
   };
 }
-// Solo corrector: una sugerencia aparece cuando ya has escrito al menos el 90 % del nombre
+// Solo corrector: una sugerencia aparece cuando ya has escrito al menos el 95 % del nombre
 // (contando letras, sin tildes ni signos), y se permiten pequeñas erratas. Así ayuda a
 // escribirlo bien, pero no a adivinarlo.
-const SUGGEST_MIN = 0.9;
+const SUGGEST_MIN = 0.95;
 function suggestions(key, text) {
   const q = norm(text);
   if (!q) return [];
