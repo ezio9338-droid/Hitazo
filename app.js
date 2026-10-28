@@ -33,7 +33,7 @@ let SONGS = [];
 let state = null;          // partida en curso
 let prefs = loadPrefs();   // ajustes de la portada
 let player = null, playerReady = false;
-let clipTimer = null, progressTimer = null, clipStartedAt = 0, clipElapsed = 0;
+let clipTimer = null;
 let isPlaying = false;
 
 const $app = document.getElementById('app');
@@ -41,7 +41,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;'
 
 /* ---------- Almacenamiento ---------- */
 function loadPrefs() {
-  const def = { players: ['Jugador 1', 'Jugador 2'], target: 10, lists: ['es', 'int'], decades: DECADES.map(d => d.id), clip: 30, start: 'auto' };
+  const def = { players: ['Jugador 1', 'Jugador 2'], target: 10, lists: ['es', 'int'], decades: DECADES.map(d => d.id), clip: 30, start: 'auto', teaser: true };
   try { return Object.assign(def, JSON.parse(localStorage.getItem(PREFS_KEY)) || {}); } catch { return def; }
 }
 function savePrefs() { try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch {} }
@@ -111,7 +111,12 @@ function renderSetup() {
           <div class="chips">${DECADES.map(d => chip('decade', d.id, d.label, prefs.decades.includes(d.id))).join('')}</div>
         </div>
         <div class="field">
-          <span class="label">Cuánto suena cada canción</span>
+          <span class="label">Reto de 5 segundos</span>
+          <div class="chips">${chip('teaser', '1', 'Sí', prefs.teaser, 'radio')}${chip('teaser', '0', 'No', !prefs.teaser, 'radio')}</div>
+          <p class="hint" style="margin:8px 0 0">La primera escucha dura 5 s. Si aciertas la canción sin escuchar más, ganas un punto extra.</p>
+        </div>
+        <div class="field">
+          <span class="label">${prefs.teaser ? 'Cuánto suena si pides escuchar más' : 'Cuánto suena cada canción'}</span>
           <div class="chips">${CLIPS.map(c => chip('clip', c.id, c.label, prefs.clip === c.id, 'radio')).join('')}</div>
         </div>
         <div class="field">
@@ -149,6 +154,7 @@ $app.addEventListener('change', e => {
     prefs[key] = [...$app.querySelectorAll(`input[name="${t.name}"]:checked`)].map(x => x.value);
   }
   if (t.name === 'clip') prefs.clip = +t.value;
+  if (t.name === 'teaser') prefs.teaser = t.value === '1';
   if (t.name === 'start') prefs.start = t.value === 'auto' ? 'auto' : +t.value;
   savePrefs(); renderSetup();
 });
@@ -167,9 +173,9 @@ $app.addEventListener('click', e => {
     case 'start': startGame(); break;
     case 'resume': state = loadGame(); state.players.forEach(p => { p.points ??= 0; }); renderGame(); break;
     case 'discard': state = null; saveGame(); renderSetup(); break;
-    case 'play': playClip(); break;
+    case 'play': playClip(); break;          // primera escucha (5 s con el reto) o repetir
     case 'pause': pauseAudio(); break;
-    case 'more': keepPlaying(); break;
+    case 'more': keepPlaying(); break;       // escuchar más / seguir escuchando
     case 'place': placeCard(); break;
     case 'next': nextTurn(); break;
     case 'quit':
@@ -187,6 +193,7 @@ function startGame() {
     players: names.map(name => ({ name, cards: [deck.pop()], points: 0 })),
     deck, turn: 0, current: deck.pop(), phase: 'listen', selected: null, guess: { a: '', t: '' },
     target: prefs.target, clip: prefs.clip, start: prefs.start, last: null,
+    teaser: prefs.teaser, heard: null, // heard: null (sin escuchar), 'teaser' (solo 5 s) o 'full'
   };
   state.players.forEach(p => p.cards.sort((a, b) => a.y - b.y));
   saveGame(); renderGame();
@@ -229,6 +236,7 @@ function renderGame() {
           ${resultRow('Año', L.ok, L.ok ? 'Bien colocada' : 'No encaja en tu línea')}
           ${resultRow('Artista', L.artistOk, L.ga ? `Dijiste «${esc(L.ga)}»` : 'Sin respuesta')}
           ${resultRow('Canción', L.titleOk, L.gt ? `Dijiste «${esc(L.gt)}»` : 'Sin respuesta')}
+          ${L.bonusOn ? resultRow('Reto 5 s', L.bonusOk, L.bonusOk ? 'Acertada con solo 5 segundos' : L.heardFull ? 'Pediste escuchar más' : 'Hacía falta acertar la canción') : ''}
         </ul>
         <p class="verdict ${L.gained ? 'ok' : 'ko'}">${L.gained ? `+${L.gained} ${L.gained === 1 ? 'punto' : 'puntos'}` : 'Sin puntos esta vez'}</p>`
       : `<div class="progress" aria-hidden="true"><i id="bar"></i></div>`}
@@ -253,7 +261,7 @@ function renderGame() {
         ? `<button class="btn berry" data-act="next">${winnerIndex() >= 0 ? 'Ver resultado final' : 'Siguiente turno'}</button>`
         : `<button class="btn" data-act="place" id="place-btn" ${state.selected === null ? 'disabled' : ''}>${state.selected === null ? 'Toca un hueco de tu línea' : 'Colocar aquí y ver el año'}</button>`}
     </div>`;
-  if (!revealed && !isPlaying && clipElapsed === 0) cueCurrent();
+  if (!revealed && !isPlaying && !state.heard) cueCurrent();
 }
 function timelineHTML() {
   const p = state.players[state.turn], cards = p.cards, s = state.current;
@@ -290,9 +298,12 @@ function guessField(key, label, placeholder) {
 }
 function controlsHTML() {
   if (isPlaying) return `<button class="btn ghost" data-act="pause">Pausar</button>`;
-  const first = clipElapsed === 0;
-  return `<button class="btn" data-act="play">${first ? 'Escuchar' : 'Volver a escuchar'}</button>
-    ${!first ? `<button class="btn ghost" data-act="more">Seguir escuchando</button>` : ''}`;
+  const h = state?.heard;
+  if (!h) return `<button class="btn" data-act="play">${state?.teaser ? 'Escuchar 5 segundos' : 'Escuchar'}</button>`;
+  if (h === 'teaser') return `<button class="btn" data-act="play">Repetir los 5 s</button>
+    <button class="btn ghost" data-act="more">Escuchar más <small>(sin punto extra)</small></button>`;
+  return `<button class="btn" data-act="play">Volver a escuchar</button>
+    <button class="btn ghost" data-act="more">Seguir escuchando</button>`;
 }
 function refreshControls() {
   const c = document.getElementById('controls');
@@ -318,9 +329,12 @@ function placeCard() {
   const ga = state.guess.a.trim(), gt = state.guess.t.trim();
   const artistOk = !!ga && artistMatches(ga, state.current.a);
   const titleOk = !!gt && titleMatches(gt, state.current.t);
-  const gained = ok + artistOk + titleOk;
+  // Punto extra: reto activado, acertada la canción y sin haber pedido escuchar más de 5 s
+  const bonusOn = !!state.teaser;
+  const bonusOk = bonusOn && titleOk && state.heard !== 'full';
+  const gained = ok + artistOk + titleOk + bonusOk;
   p.points = (p.points ?? 0) + gained;
-  state.last = { ok, index: i, artistOk, titleOk, ga, gt, gained };
+  state.last = { ok, index: i, artistOk, titleOk, ga, gt, gained, bonusOn, bonusOk, heardFull: state.heard === 'full' };
   state.phase = 'revealed';
   saveGame(); renderGame();
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -333,8 +347,7 @@ function nextTurn() {
   if (!state.deck.length) { toast('Se han acabado las canciones.'); return renderWinner(); }
   state.turn = (state.turn + 1) % state.players.length;
   state.current = state.deck.pop();
-  state.phase = 'listen'; state.selected = null; state.last = null; state.guess = { a: '', t: '' };
-  clipElapsed = 0;
+  state.phase = 'listen'; state.selected = null; state.last = null; state.guess = { a: '', t: '' }; state.heard = null;
   saveGame(); renderGame();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -483,7 +496,7 @@ window.onYouTubeIframeAPIReady = function () {
   player = new YT.Player('yt', {
     host: 'https://www.youtube-nocookie.com', // modo de privacidad mejorada
     width: 200, height: 200,
-    playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0, fs: 0, iv_load_policy: 3 },
+    playerVars: { controls: 0, disablekb: 1, playsinline: 1, rel: 0, fs: 0, iv_load_policy: 3, modestbranding: 1 },
     events: {
       onReady: () => { playerReady = true; cueCurrent(); },
       onStateChange: onPlayerState,
@@ -495,11 +508,8 @@ function onPlayerState(e) {
   if (e.data === YT.PlayerState.PLAYING) {
     hideUnlock();
     isPlaying = true; refreshControls();
-    clipStartedAt = performance.now() - clipElapsed * 1000;
-    tickProgress();
   } else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) {
     isPlaying = false; refreshControls();
-    clearTimeout(progressTimer);
   }
 }
 function onPlayerError() {
@@ -507,7 +517,7 @@ function onPlayerError() {
   if (!state || state.phase !== 'listen') return;
   if (!state.deck.length) return toast('Esta canción no se puede reproducir y no quedan más.');
   state.current = state.deck.pop();
-  clipElapsed = 0; saveGame(); renderGame();
+  state.heard = null; saveGame(); renderGame();
   toast('Esa canción no se puede reproducir aquí. Pulsa Escuchar para oír otra.');
 }
 // Deja la canción del turno preparada en el reproductor nada más empezar el turno,
@@ -519,15 +529,20 @@ function cueCurrent() {
   if (cuedId === s.v) return;
   try { player.cueVideoById({ videoId: s.v, startSeconds: startFor(s) }); cuedId = s.v; } catch {}
 }
+// Trozo que está sonando, en segundos del vídeo. to = null: hasta el final.
+let seg = null;
+const TEASER = 5;
 function playClip() {
   if (!playerReady) return toast('El reproductor aún se está cargando. Prueba en un segundo.');
   const s = state.current;
-  clipElapsed = 0;
-  clearTimeout(clipTimer);
   const start = startFor(s);
+  if (!state.heard) { state.heard = state.teaser ? 'teaser' : 'full'; saveGame(); }
+  // Primera escucha con el reto: 5 s. Después, "Volver a escuchar" repite desde el inicio del trozo.
+  const len = state.heard === 'teaser' ? TEASER : state.clip ? state.clip + (state.teaser ? TEASER : 0) : null;
+  seg = { from: start, to: len ? start + len : null };
   if (cuedId === s.v) { player.seekTo(start, true); player.playVideo(); }
   else { player.loadVideoById({ videoId: s.v, startSeconds: start }); cuedId = s.v; }
-  if (state.clip) armClipTimer(state.clip);
+  watchSegment();
   armUnlockWatchdog();
   keepAwake();
 }
@@ -556,52 +571,54 @@ function armUnlockWatchdog() {
     if (!isPlaying && state?.phase === 'listen') document.body.classList.add('needs-tap');
   }, 2500);
 }
-function hideUnlock() { clearTimeout(unlockTimer); document.body.classList.remove('needs-tap'); }
+function hideUnlock() { clearTimeout(unlockTimer); document.body.classList.remove('needs-tap', 'tapped'); }
+// Al tocar el botón de YouTube, la página pierde el foco (el toque va al reproductor):
+// en ese momento lo hacemos invisible para que no se vea ni un fotograma del vídeo.
+window.addEventListener('blur', () => {
+  if (document.body.classList.contains('needs-tap')) setTimeout(() => document.body.classList.add('tapped'), 60);
+});
 // Evita que la pantalla se apague durante la partida (si el navegador lo permite)
 let wakeLock = null;
 async function keepAwake() {
+  try { if ('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: 'Canción misteriosa', artist: 'Hitazo' }); } catch {}
   try { if ('wakeLock' in navigator && !wakeLock) { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => { wakeLock = null; }); } } catch {}
 }
 function loadMoments() {
   try { return JSON.parse(localStorage.getItem(MOMENTS_KEY)) || {}; } catch { return {}; }
 }
+// "Escuchar más" tras los 5 s (se pierde el punto extra) o "Seguir escuchando"
 function keepPlaying() {
   if (!playerReady) return;
-  clearTimeout(clipTimer);
+  if (state.heard === 'teaser') { state.heard = 'full'; saveGame(); }
+  const cur = player.getCurrentTime() || seg?.to || 0;
+  seg = { from: cur, to: state.clip ? cur + state.clip : null };
   player.playVideo();
-  if (state.clip) armClipTimer(clipElapsed + state.clip);
+  watchSegment();
 }
-let segFrom = 0, segTo = 0;
-function armClipTimer(untilSeconds) {
+// Corta el sonido al llegar al final del trozo y mueve la barra (5 veces por segundo,
+// con transform, para no obligar al móvil a recalcular la página).
+function watchSegment() {
   clearTimeout(clipTimer);
-  segFrom = untilSeconds - state.clip; segTo = untilSeconds;
-  const check = () => {
-    if (isPlaying && clipElapsed >= untilSeconds) { player.pauseVideo(); return; }
-    clipTimer = setTimeout(check, 200);
-  };
-  check();
-}
-// La barra se actualiza 5 veces por segundo (no en cada fotograma) y con transform,
-// que no obliga al navegador a recalcular la página entera.
-function tickProgress() {
-  clearTimeout(progressTimer);
-  clipElapsed = (performance.now() - clipStartedAt) / 1000;
-  const bar = document.getElementById('bar');
-  if (bar) {
-    let f;
-    if (state?.clip) f = (clipElapsed - segFrom) / (segTo - segFrom);
-    else {
-      const dur = player?.getDuration?.() || 0;
-      f = dur ? player.getCurrentTime() / dur : 0;
+  const tick = () => {
+    if (!seg || !playerReady) return;
+    const cur = player.getCurrentTime() || 0;
+    if (isPlaying && seg.to != null && cur >= seg.to - 0.05) { player.pauseVideo(); setBar(1); return; }
+    if (isPlaying) {
+      const dur = player.getDuration?.() || 0;
+      setBar(seg.to != null ? (cur - seg.from) / (seg.to - seg.from) : dur ? cur / dur : 0);
     }
-    bar.style.transform = `scaleX(${Math.max(0, Math.min(1, f)).toFixed(3)})`;
-  }
-  if (isPlaying) progressTimer = setTimeout(tickProgress, 200);
+    clipTimer = setTimeout(tick, 150);
+  };
+  tick();
+}
+function setBar(f) {
+  const bar = document.getElementById('bar');
+  if (bar) bar.style.transform = `scaleX(${Math.max(0, Math.min(1, f)).toFixed(3)})`;
 }
 function pauseAudio() { hideUnlock(); clearTimeout(clipTimer); if (playerReady) player.pauseVideo(); }
 function stopAudio() {
   hideUnlock();
-  clearTimeout(clipTimer); clearTimeout(progressTimer);
+  clearTimeout(clipTimer); seg = null;
   if (playerReady) { try { player.stopVideo(); } catch {} }
   cuedId = null;
   isPlaying = false;
