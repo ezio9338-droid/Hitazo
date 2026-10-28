@@ -41,7 +41,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;'
 
 /* ---------- Almacenamiento ---------- */
 function loadPrefs() {
-  const def = { players: ['Jugador 1', 'Jugador 2'], target: 10, lists: ['es', 'int'], decades: DECADES.map(d => d.id), clip: 30, start: 'auto', teaser: true };
+  const def = { players: ['Jugador 1', 'Jugador 2'], target: 10, lists: ['es', 'int'], decades: DECADES.map(d => d.id), clip: 30, start: 'auto', teaser: true, rebound: true };
   try { return Object.assign(def, JSON.parse(localStorage.getItem(PREFS_KEY)) || {}); } catch { return def; }
 }
 function savePrefs() { try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch {} }
@@ -111,6 +111,11 @@ function renderSetup() {
           <div class="chips">${DECADES.map(d => chip('decade', d.id, d.label, prefs.decades.includes(d.id))).join('')}</div>
         </div>
         <div class="field">
+          <span class="label">Rebote</span>
+          <div class="chips">${chip('rebound', '1', 'Sí', prefs.rebound, 'radio')}${chip('rebound', '0', 'No', !prefs.rebound, 'radio')}</div>
+          <p class="hint" style="margin:8px 0 0">Si quien tiene el turno falla el artista o el título, los demás pueden contestar. Si se apunta más de uno, decide una ruleta.</p>
+        </div>
+        <div class="field">
           <span class="label">Reto de 5 segundos</span>
           <div class="chips">${chip('teaser', '1', 'Sí', prefs.teaser, 'radio')}${chip('teaser', '0', 'No', !prefs.teaser, 'radio')}</div>
           <p class="hint" style="margin:8px 0 0">La primera escucha dura 5 s. Si aciertas la canción sin escuchar más, ganas un punto extra.</p>
@@ -155,6 +160,7 @@ $app.addEventListener('change', e => {
   }
   if (t.name === 'clip') prefs.clip = +t.value;
   if (t.name === 'teaser') prefs.teaser = t.value === '1';
+  if (t.name === 'rebound') prefs.rebound = t.value === '1';
   if (t.name === 'start') prefs.start = t.value === 'auto' ? 'auto' : +t.value;
   savePrefs(); renderSetup();
 });
@@ -171,12 +177,18 @@ $app.addEventListener('click', e => {
     case 'minus': prefs.target = Math.max(3, prefs.target - 1); savePrefs(); renderSetup(); break;
     case 'plus': prefs.target = Math.min(30, prefs.target + 1); savePrefs(); renderSetup(); break;
     case 'start': startGame(); break;
-    case 'resume': state = loadGame(); state.players.forEach(p => { p.points ??= 0; }); renderGame(); break;
+    case 'resume': state = loadGame(); state.players.forEach(p => { p.points ??= 0; });
+      if (state.rb?.step === 'spin') state.rb.step = 'answer';
+      renderGame(); break;
     case 'discard': state = null; saveGame(); renderSetup(); break;
     case 'play': playClip(); break;          // primera escucha (5 s con el reto) o repetir
     case 'pause': pauseAudio(); break;
     case 'more': keepPlaying(); break;       // escuchar más / seguir escuchando
     case 'place': placeCard(); break;
+    case 'rb-toggle': rbToggle(+b.dataset.i); break;
+    case 'rb-go': rbGo(); break;
+    case 'rb-none': rbNone(); break;
+    case 'rb-check': rbCheck(); break;
     case 'next': nextTurn(); break;
     case 'quit':
       if (confirm('¿Terminar la partida? Se perderá el progreso.')) { state = null; saveGame(); renderSetup(); }
@@ -193,7 +205,7 @@ function startGame() {
     players: names.map(name => ({ name, cards: [deck.pop()], points: 0 })),
     deck, turn: 0, current: deck.pop(), phase: 'listen', selected: null, guess: { a: '', t: '' },
     target: prefs.target, clip: prefs.clip, start: prefs.start, last: null,
-    teaser: prefs.teaser, heard: null, // heard: null (sin escuchar), 'teaser' (solo 5 s) o 'full'
+    teaser: prefs.teaser, reboundOn: prefs.rebound, heard: null, // heard: null (sin escuchar), 'teaser' (solo 5 s) o 'full'
   };
   state.players.forEach(p => p.cards.sort((a, b) => a.y - b.y));
   saveGame(); renderGame();
@@ -202,7 +214,8 @@ function startGame() {
 function renderGame() {
   if (!state) return renderSetup();
   const p = state.players[state.turn];
-  const revealed = state.phase === 'revealed';
+  const phase = state.phase;                 // 'listen' | 'rebound' | 'revealed'
+  const revealed = phase === 'revealed', rebound = phase === 'rebound', listen = phase === 'listen';
   const s = state.current;
   const cards = p.cards;
   state.guess ??= { a: '', t: '' };
@@ -218,37 +231,41 @@ function renderGame() {
         <span class="dot" style="background:${COLORS[i]}">${esc(initial(pl.name))}</span>${esc(pl.name)}
         <b>${pl.points ?? 0} pts</b><span class="cards-count">${pl.cards.length}/${state.target}</span></span>`).join('')}
     </div>
-    <h1 class="turn-title">Turno de ${esc(p.name)}</h1>
-    <p class="turn-sub">${revealed ? '' : 'Escucha, intenta adivinar artista y canción, y elige su sitio en tu línea.'}</p>
+    <h1 class="turn-title">${rebound ? '¡Rebote!' : `Turno de ${esc(p.name)}`}</h1>
+    <p class="turn-sub">${listen ? 'Escucha, intenta adivinar artista y canción, y elige su sitio en tu línea.'
+      : rebound ? `${esc(p.name)} no ha acertado ${L.artistOk ? 'el título' : L.titleOk ? 'el artista' : 'el artista ni el título'}. ¿Alguien más se la sabe?` : ''}</p>
 
     <section class="deck">
-      <div class="record ${revealed ? 'revealed' : ''} ${isPlaying ? 'spinning' : ''}" id="record">
+      <div class="record ${listen ? '' : 'revealed'} ${isPlaying ? 'spinning' : ''}" id="record">
         <div class="disc"><div class="label">
-          <span class="q">${revealed ? s.y : '?'}</span><span class="hole"></span>
+          <span class="q">${listen ? '?' : s.y}</span><span class="hole"></span>
         </div></div>
       </div>
       ${revealed ? `
         <div class="reveal-info">
           <div class="song">${esc(s.t)}</div>
           <div class="artist">${esc(s.a)} · ${s.y}</div>
-        </div>
+        </div>` : ''}
+      ${listen ? '' : `
         <ul class="results">
           ${resultRow('Año', L.ok, L.ok ? 'Bien colocada' : 'No encaja en tu línea')}
           ${resultRow('Artista', L.artistOk, L.ga ? `Dijiste «${esc(L.ga)}»` : 'Sin respuesta')}
           ${resultRow('Canción', L.titleOk, L.gt ? `Dijiste «${esc(L.gt)}»` : 'Sin respuesta')}
           ${L.bonusOn ? resultRow('Reto 5 s', L.bonusOk, L.bonusOk ? 'Acertada con solo 5 segundos' : L.heardFull ? 'Pediste escuchar más' : 'Hacía falta acertar la canción') : ''}
         </ul>
-        <p class="verdict ${L.gained ? 'ok' : 'ko'}">${L.gained ? `+${L.gained} ${L.gained === 1 ? 'punto' : 'puntos'}` : 'Sin puntos esta vez'}</p>`
-      : `<div class="progress" aria-hidden="true"><i id="bar"></i></div>`}
+        <p class="verdict ${L.gained ? 'ok' : 'ko'}">${esc(p.name)}: ${L.gained ? `+${L.gained} ${L.gained === 1 ? 'punto' : 'puntos'}` : 'sin puntos esta vez'}</p>
+        ${revealed && L.rb ? reboundResultHTML(L.rb) : ''}`}
+      ${listen ? `<div class="progress" aria-hidden="true"><i id="bar"></i></div>` : ''}
       <div class="controls" id="controls">${controlsHTML()}</div>
     </section>
 
-    ${revealed ? '' : `
+    ${listen ? `
     <section class="guess" aria-label="Adivina la canción">
       ${guessField('a', 'Artista', 'Nombre del artista o grupo')}
       ${guessField('t', 'Canción', 'Título de la canción')}
       <p class="guess-hint">Opcional. Cada acierto suma 1 punto. Cuando lo tengas casi entero escrito, aparecerá la forma correcta para que la elijas.</p>
-    </section>`}
+    </section>` : ''}
+    ${rebound ? reboundHTML() : ''}
 
     <div class="timeline-head">
       <h2>Línea de ${esc(p.name)}</h2>
@@ -259,21 +276,122 @@ function renderGame() {
     <div class="place-bar">
       ${revealed
         ? `<button class="btn berry" data-act="next">${winnerIndex() >= 0 ? 'Ver resultado final' : 'Siguiente turno'}</button>`
-        : `<button class="btn" data-act="place" id="place-btn" ${state.selected === null ? 'disabled' : ''}>${state.selected === null ? 'Toca un hueco de tu línea' : 'Colocar aquí y ver el año'}</button>`}
+        : listen ? `<button class="btn" data-act="place" id="place-btn" ${state.selected === null ? 'disabled' : ''}>${state.selected === null ? 'Toca un hueco de tu línea' : 'Colocar aquí y ver el año'}</button>` : ''}
     </div>`;
-  if (!revealed && !isPlaying && !state.heard) cueCurrent();
+  if (listen && !isPlaying && !state.heard) cueCurrent();
 }
+
+/* ---------- Rebote ---------- */
+// Si el jugador del turno falla artista o título, los demás pueden intentarlo.
+// Si se apunta más de uno, una ruleta elige quién contesta.
+function reboundHTML() {
+  const rb = state.rb, others = state.players.map((pl, i) => ({ pl, i })).filter(x => x.i !== state.turn);
+  if (rb.step === 'pick') return `
+    <section class="rebound panel">
+      <h2>¿Quién se la sabe?</h2>
+      <p class="hint">Tocad vuestro nombre si queréis contestar. ${rb.need.a && rb.need.t ? 'Hay en juego el artista y el título' : rb.need.a ? 'Queda por acertar el artista' : 'Queda por acertar el título'}: 1 punto cada uno.</p>
+      <div class="rb-players">
+        ${others.map(({ pl, i }) => `<button class="rb-player ${rb.hands.includes(i) ? 'on' : ''}" data-act="rb-toggle" data-i="${i}" aria-pressed="${rb.hands.includes(i)}">
+          <span class="dot" style="background:${COLORS[i]}">${esc(initial(pl.name))}</span>${esc(pl.name)}</button>`).join('')}
+      </div>
+      <div class="row-btns">
+        ${rb.hands.length === 0 ? `<button class="btn ghost" data-act="rb-none">Nadie, ver la solución</button>`
+          : rb.hands.length === 1 ? `<button class="btn berry" data-act="rb-go">Contesta ${esc(state.players[rb.hands[0]].name)}</button>
+              <button class="link" data-act="rb-none">Nadie, ver la solución</button>`
+          : `<button class="btn berry" data-act="rb-go">Girar la ruleta</button>
+              <button class="link" data-act="rb-none">Nadie, ver la solución</button>`}
+      </div>
+    </section>`;
+  if (rb.step === 'spin') return `
+    <section class="rebound panel">
+      <h2>Girando la ruleta…</h2>
+      <div class="roulette" id="roulette">
+        ${rb.hands.map(i => `<span class="rb-slot" data-i="${i}"><span class="dot" style="background:${COLORS[i]}">${esc(initial(state.players[i].name))}</span>${esc(state.players[i].name)}</span>`).join('')}
+      </div>
+    </section>`;
+  // step 'answer'
+  const who = state.players[rb.who];
+  return `
+    <section class="rebound panel">
+      <h2>Contesta <span class="dot" style="background:${COLORS[rb.who]}">${esc(initial(who.name))}</span> ${esc(who.name)}</h2>
+      <div class="guess flat">
+        ${rb.need.a ? guessField('a', 'Artista', 'Nombre del artista o grupo') : ''}
+        ${rb.need.t ? guessField('t', 'Canción', 'Título de la canción') : ''}
+      </div>
+      <div class="row-btns"><button class="btn berry" data-act="rb-check">Comprobar y ver la solución</button></div>
+    </section>`;
+}
+function reboundResultHTML(rb) {
+  if (rb.none) return `<p class="rb-result">Nadie se la sabía.</p>`;
+  const who = state.players[rb.who];
+  const parts = [];
+  if (rb.need.a) parts.push(resultRow('Artista', rb.artistOk, rb.ga ? `Dijo «${esc(rb.ga)}»` : 'Sin respuesta'));
+  if (rb.need.t) parts.push(resultRow('Canción', rb.titleOk, rb.gt ? `Dijo «${esc(rb.gt)}»` : 'Sin respuesta'));
+  return `<div class="rb-result"><b>Rebote de ${esc(who.name)}</b>
+    <ul class="results">${parts.join('')}</ul>
+    <p class="verdict ${rb.gained ? 'ok' : 'ko'}">${esc(who.name)}: ${rb.gained ? `+${rb.gained} ${rb.gained === 1 ? 'punto' : 'puntos'}` : 'sin puntos'}</p></div>`;
+}
+function rbToggle(i) {
+  const h = state.rb.hands, k = h.indexOf(i);
+  k >= 0 ? h.splice(k, 1) : h.push(i);
+  saveGame(); renderGame();
+}
+function rbGo() {
+  const rb = state.rb;
+  rb.who = rb.hands[Math.floor(Math.random() * rb.hands.length)];
+  state.guess = { a: '', t: '' };
+  if (rb.hands.length === 1) { rb.step = 'answer'; saveGame(); renderGame(); focusRebound(); return; }
+  rb.step = 'spin'; saveGame(); renderGame();
+  spinRoulette(rb.hands, rb.who, () => { rb.step = 'answer'; saveGame(); renderGame(); focusRebound(); });
+}
+function focusRebound() { setTimeout(() => document.querySelector('.rebound input')?.focus(), 50); }
+// La ruleta va iluminando nombres cada vez más despacio hasta pararse en el elegido
+function spinRoulette(hands, who, done) {
+  const slots = [...document.querySelectorAll('#roulette .rb-slot')];
+  const target = hands.indexOf(who);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const steps = reduce ? 1 : hands.length * 4 + target + 1; // varias vueltas y acaba en el elegido
+  let k = 0, delay = 60;
+  const tick = () => {
+    const idx = reduce ? target : k % hands.length;
+    slots.forEach((el, j) => el.classList.toggle('lit', j === idx));
+    k++;
+    if (k >= steps) { slots[target].classList.add('winner'); setTimeout(done, 900); return; }
+    delay *= 1.12;
+    setTimeout(tick, delay);
+  };
+  tick();
+}
+function rbNone() {
+  state.last.rb = { none: true };
+  state.phase = 'revealed'; delete state.rb;
+  saveGame(); renderGame();
+}
+function rbCheck() {
+  const rb = state.rb, s = state.current, who = state.players[rb.who];
+  const ga = state.guess.a.trim(), gt = state.guess.t.trim();
+  const artistOk = rb.need.a && !!ga && artistMatches(ga, s.a);
+  const titleOk = rb.need.t && !!gt && titleMatches(gt, s.t);
+  const gained = artistOk + titleOk;
+  who.points = (who.points ?? 0) + gained;
+  state.last.rb = { who: rb.who, need: rb.need, ga, gt, artistOk, titleOk, gained };
+  state.phase = 'revealed'; delete state.rb;
+  saveGame(); renderGame();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function timelineHTML() {
   const p = state.players[state.turn], cards = p.cards, s = state.current;
-  const revealed = state.phase === 'revealed';
+  const revealed = state.phase !== 'listen'; // en el rebote la carta ya está colocada
   let html = '';
   for (let i = 0; i <= cards.length; i++) {
-    if (revealed && state.last?.index === i && !state.last.ok) html += cardHTML(s, 'wrong new');
+    const hide = state.phase === 'rebound';
+    if (revealed && state.last?.index === i && !state.last.ok) html += cardHTML(s, 'wrong new', hide);
     if (!revealed) {
       const sel = state.selected === i;
       html += `<button class="slot ${sel ? 'selected' : ''}" data-slot="${i}" aria-label="Colocar ${slotLabel(cards, i)}">${sel ? 'Aquí' : '+'}</button>`;
     }
-    if (i < cards.length) html += cardHTML(cards[i], revealed && state.last?.ok && cards[i].v === s.v ? 'new' : '');
+    if (i < cards.length) html += cardHTML(cards[i], revealed && state.last?.ok && cards[i].v === s.v ? 'new' : '', hide && cards[i].v === s.v);
   }
   return html;
 }
@@ -310,8 +428,8 @@ function refreshControls() {
   if (c) c.innerHTML = controlsHTML();
   document.getElementById('record')?.classList.toggle('spinning', isPlaying);
 }
-function cardHTML(s, cls = '') {
-  return `<div class="card ${cls}"><span class="year">${s.y}</span><span class="t">${esc(s.t)}</span><span class="a">${esc(s.a)}</span></div>`;
+function cardHTML(s, cls = '', hidden = false) {
+  return `<div class="card ${cls}"><span class="year">${s.y}</span><span class="t">${hidden ? '¿?' : esc(s.t)}</span><span class="a">${hidden ? '' : esc(s.a)}</span></div>`;
 }
 function slotLabel(cards, i) {
   if (!cards.length) return 'aquí';
@@ -335,7 +453,10 @@ function placeCard() {
   const gained = ok + artistOk + titleOk + bonusOk;
   p.points = (p.points ?? 0) + gained;
   state.last = { ok, index: i, artistOk, titleOk, ga, gt, gained, bonusOn, bonusOk, heardFull: state.heard === 'full' };
-  state.phase = 'revealed';
+  if (state.reboundOn && state.players.length > 1 && (!artistOk || !titleOk)) {
+    state.rb = { step: 'pick', hands: [], who: null, need: { a: !artistOk, t: !titleOk } };
+    state.phase = 'rebound';
+  } else state.phase = 'revealed';
   saveGame(); renderGame();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }

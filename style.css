@@ -352,11 +352,11 @@ body.needs-tap #unlock-note {
 
 #toast {
   position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom));
-  transform: translate(-50%, 140%); transition: transform .25s;
+  transform: translate(-50%, calc(100% + 40px)); transition: transform .25s, visibility .25s; visibility: hidden;
   background: var(--paper); color: var(--ink); padding: 12px 18px; border-radius: 12px;
   font-weight: 500; max-width: calc(100% - 32px); box-shadow: 0 8px 24px rgba(0,0,0,.35); z-index: 10;
 }
-#toast.show { transform: translate(-50%, 0); }
+#toast.show { transform: translate(-50%, 0); visibility: visible; }
 
 @media (max-width: 420px) {
   .card { width: 92px; }
@@ -369,3 +369,26 @@ body.needs-tap #unlock-note {
   #toast { transition: none; }
 }
 body.needs-tap.tapped #unlock-note { display: none; }
+
+/* ---------- Rebote ---------- */
+.rebound { margin-top: 16px; }
+.rebound h2 { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rebound h2 .dot, .rb-player .dot, .rb-slot .dot {
+  width: 28px; height: 28px; border-radius: 50%; display: inline-grid; place-items: center;
+  font-family: var(--body); font-size: .8rem; font-weight: 700; color: var(--ink);
+}
+.rb-players, .roulette { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 16px; }
+.rb-player, .rb-slot {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px 8px 8px; border-radius: 999px; font-weight: 600;
+  background: var(--petrol); border: 2px solid var(--petrol-3); color: var(--text);
+}
+.rb-player { min-height: 48px; }
+.rb-player.on { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.rb-slot { transition: background .08s, transform .08s; }
+.rb-slot.lit { background: var(--mustard); color: var(--ink); border-color: var(--mustard); transform: scale(1.06); }
+.rb-slot.winner { background: var(--berry); color: #fff4ea; border-color: var(--berry); transform: scale(1.12); }
+.row-btns { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.guess.flat { margin: 0 0 14px; padding: 0; background: none; }
+.rb-result { width: min(360px, 100%); color: var(--paper); text-align: left; display: grid; gap: 6px; margin: 4px 0 0; }
+p.rb-result { text-align: center; color: var(--paper-2); }
